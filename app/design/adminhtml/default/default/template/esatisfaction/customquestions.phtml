@@ -1,0 +1,122 @@
+﻿	<div class="content-header">
+		<table cellspacing="0">
+			<tbody>
+				<tr>
+					<td style="width:50%;"><h3 class="icon-head head-products"><?php echo $this->__('Custom Questions'); ?></h3></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div>
+<?php if($this->isCustomQuestionsEnabled()){ ?>
+	<?php $site_id = Mage::getStoreConfig('esatisfaction/section_one/esatisfaction_site_id'); ?> 
+	<div id="customQuestionsGrid">
+		<div class="grid">
+			<div class="hor-scroll">
+				<table cellspacing="0" class="data" id="customQuestionsGrid_table">
+					<colgroup>
+						<col>
+						<col>
+						<col>
+						<col>
+						<col>
+					</colgroup>
+					<thead>
+						<tr class="headings">
+							<th class=" no-link"><span class="nobr"><?php echo $this->__('Status'); ?></span></th>
+							<th class=" no-link"><span class="nobr"><?php echo $this->__('Title'); ?></span></th>
+							<th class=" no-link"><span class="nobr"><?php echo $this->__('State'); ?></span></th>
+							<th class=" no-link"><span class="nobr"><?php echo $this->__('No. of Answers'); ?></span></th>
+							<th class=" no-link last"><span class="nobr"><?php echo $this->__('Action'); ?></span></th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+			</div>	
+		</div>
+	</div>
+ 
+	<script type="text/javascript">//<![CDATA[
+		var buildAuth = function(request,method){
+			var public_key = '<?php echo Mage::getStoreConfig('esatisfaction/section_one/esatisfaction_site_public_key'); ?>';
+			var private_key = '<?php echo Mage::getStoreConfig('esatisfaction/section_one/esatisfaction_site_private_key'); ?>';
+			var timestamp = (new Date().getTime() / 1000).toString();
+			
+			var hash = CryptoJS.HmacSHA256(public_key+timestamp+ method, private_key);
+			var hashInBase64 = CryptoJS.enc.Base64.stringify(hash);
+			setHeaders(request, public_key, timestamp, hashInBase64)			
+		}     
+
+		var setHeaders = function(request, public_key, timestamp, hashInBase64){
+			request.setRequestHeader('X-HASH', hashInBase64);
+			request.setRequestHeader('X-Public', public_key);
+			request.setRequestHeader('X-Microtime', timestamp);
+		}
+		
+		var getCustomQuestion = function(site_id) {
+			$j.ajax({
+				type: "GET",
+				url:"https://www.e-satisfaction.gr/api/v2/prestashop/custom_question_section/"+site_id,
+				contentType: "application/json; charset=utf-8",
+				dataType: "json",
+				beforeSend: function (request) {
+				  buildAuth(request,this.type);
+				},    
+				success: function (data) {
+
+					var dataLength = data.length;
+					var html = '';
+					var trClass = 'even';
+					for (var i = 0; i < dataLength; i++) {
+						if(data[i]['customquest_pg_qid']){
+							html += '<tr class="'+trClass+'">';
+							if(data[i]['customquest_pg_status']){
+								html += '	<td><?php echo $this->__('Active'); ?></td>';
+							}else{
+								html += '	<td><?php echo $this->__('Inactive'); ?></td>';
+							}
+							var stage ='';
+							if(data[i]['customquest_pg_qstage'] == 'Browse'){
+								stage = 'miniform_custom_answers';
+							}else if(data[i]['customquest_pg_qstage'] == 'Checkout'){
+								stage = 'custom_checkout_answers_text';
+							}else{
+								stage = 'aftersales_custom_answers';
+							}
+							html += '	<td>'+data[i]['customquest_pg_qtitle']+'</td>';
+							html += '	<td>'+data[i]['customquest_pg_qstage']+'</td>';
+							html += '	<td>'+data[i]['customquest_pg_qanswersnumber']+'</td>';
+							html += '	<td><a href="<?php echo Mage::helper("adminhtml")->getUrl("/esatisfaction_customquestions/export/"); ?>?quest_id='+data[i]['customquest_pg_qid']+'&stage='+stage+'" class="export-custom-questions"><?php echo $this->__('Export Answers'); ?></button></td>';
+							html += '</tr>';
+							if(trClass == 'even'){
+								trClass = 'odd';
+							}else{
+								trClass = 'even';
+							}
+						}
+					}
+					if(html){
+						$j('#customQuestionsGrid_table tbody').html(html);
+					}
+				  
+				},
+				error: function (errorMessage) {
+					if(errorMessage.status == 401) alert('Access denied');
+				}
+			});
+		};
+		
+		var site_id = <?php echo $site_id; ?>;
+		
+		getCustomQuestion(site_id);
+	//]]></script>
+	
+<?php } else { ?>
+	<div class="custom-questions-disabled">
+		<p><?php echo $this->__('Your Custom Questions are not Enabled.'); ?></p>
+		<p><?php echo $this->__('If you would to like to start using e-Satisfaction\'s custom questions for your site go to : <a href="http://www.e-satisfaction.gr" target="_blank">e-Satisfaction'); ?></a>
+		
+	</div>
+<?php } ?>
+	</div>

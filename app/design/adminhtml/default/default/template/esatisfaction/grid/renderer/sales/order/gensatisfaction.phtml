@@ -1,0 +1,5 @@
+<?php if ($this->canRender()): ?>
+	<?php $order_id = $this->getOrder()->getId(); ?>
+    <div class="esatisfaction-gensatisfaction-order-container" id="esatisfaction-gensatisfaction-order-<?php echo $order_id; ?>">
+	</div>
+<?php endif; ?>

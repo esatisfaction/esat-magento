@@ -1,0 +1,658 @@
+<?php
+/**
+ * Custom tab template
+ */
+?>
+<?php $media_folder = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA);?>
+<?php $_order = $this->getOrder(); ?>
+
+<?php $site_id 	= Mage::getStoreConfig('esatisfaction/section_one/esatisfaction_site_id'); ?> 
+<?php $public_key 	= Mage::getStoreConfig('esatisfaction/section_one/esatisfaction_site_public_key'); ?> 
+<?php $private_key 	= Mage::getStoreConfig('esatisfaction/section_one/esatisfaction_site_private_key'); ?> 
+
+<div class="e-satisfaction-head">
+	<h4 class="icon-head head-e-satisfaction-logo"><img src="" id="ordr_pg_esat_logo" />e-satisfaction</h3>
+</div>
+<div class="box-left">
+    <!---e-Satisfaction Order General Information-->
+    <div class="entry-edit" id="esatisfaction-order-general-container">
+		<div class="entry-edit-head">
+			<h4 class="icon-head head-esatisfaction-order-general"><?php echo $this->__('Fundamentals And General Satisfaction') ?></h4>
+		</div>
+        <div class="box" id="dashboard_diagram_totals">
+			<div class="entry-edit">
+				<table cellspacing="0" width="100%">
+					<tbody>
+						<tr>
+							<td class="a-center bold">
+								<span><?php echo $this->__('Checkout') ?></span><br>
+								<span id="ordr_pg_general_satisf_checkout_basic" class="nowrap" style="font-size:18px; color:#EA7601;"></span>
+							</td>
+							<td class="a-center bold">
+								<span><?php echo $this->__('After Sales') ?></span><br>
+								<span id="ordr_pg_general_satisf_aftersales_basic" class="nowrap" style="font-size:18px; color:#EA7601;">0</span>
+							</td>
+							<td class="a-center bold">
+								<span><?php echo $this->__('Recommendation') ?></span><br>
+								<span class="nowrap" style="font-size:18px; color:#EA7601;"><img src="" id="ordr_pg_recommend_basic" /></span>
+							</td>
+							<td class="a-center bold">
+								<span><?php echo $this->__('Would You Buy Again') ?></span><br>
+								<span id="ordr_pg_buyagain_basic" class="nowrap" style="font-size:18px; color:#EA7601;">0</span>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+    </div>
+	
+    <!---e-Satisfaction Order Checkout Comments-->
+    <div class="entry-edit" id="e-satisfaction-order-checkout-comments-container">
+		<div class="entry-edit-head">
+			<h4 class="icon-head head-esatisfaction-order-checkout-comments"><?php echo $this->__('Checkout Comments') ?></h4>
+		</div>
+        <div class="fieldset">
+            <table cellspacing="0" class="e-satisfaction-form-list" >
+				<tbody>
+					<tr>
+						<td class="label"><label><img id="ordr_pg_icon_checkout" class="e-satisfaction-order-checkout-icon" src="https://www.e-satisfaction.gr/icon/prestashop/has-comment.png" /></label></td>
+						<td class="value" id="ordr_pg_comments_text" >
+						</td>
+					</tr>
+                      <tr>
+						<td class="label"><label><?php echo $this->__('Answer') ?></label></td>
+						<td class="value">
+							<input name="esatisfaction[checkout_comment]" type="hidden" />
+							<textarea name="esatisfaction[checkout_comment_answer]" rows="3" cols="5" style="height:6em; width:99%;" id="esatisfaction_checkout_comment_answer"></textarea>
+							<button id="" title="<?php echo $this->__('Submit Answer') ?>" type="button" class="scalable save" onclick="sendEsatisfactionCheckoutCommentAnswer()" style=""><span><span><span><?php echo $this->__('Submit Answer') ?></span></span></span></button>
+						</td>
+					</tr>
+                </tbody>
+			</table>
+        </div>
+    </div>
+    <!---e-Satisfaction Order After Sales Comments-->
+    <div class="entry-edit" id="esatisfaction-order-after-sales-comments-container">
+		<div class="entry-edit-head">
+			<h4 class="icon-head head-esatisfaction-order-after-sales-comments"><?php echo $this->__('After Sales Comments') ?></h4>
+		</div>
+        <div class="fieldset">
+            <table cellspacing="0" class="e-satisfaction-form-list" >
+				<tbody>
+					<tr>
+						<td class="label"><label><img id="ordr_pg_icon_aftersales" class="e-satisfaction-order-after-sales-icon" src="https://www.e-satisfaction.gr/icon/prestashop/has-comment.png" /></label></td>
+						<td class="value" id="ordr_pg_after_sales_comments_text"></td>
+					</tr>
+                      <tr>
+						<td class="label"><label><?php echo $this->__('Answer') ?></label></td>
+						<td class="value">
+							<input name="esatisfaction[after_sales_comment]" type="hidden" />
+							<textarea name="esatisfaction[after_sales_comment_answer]" rows="3" cols="5" style="height:6em; width:99%;" id="esatisfaction_after_sales_comment_answer"></textarea>
+							<button id="" title="<?php echo $this->__('Submit Answer') ?>" type="button" class="scalable save" onclick="sendEsatisfactionAfterSalesCommentAnswer()" style=""><span><span><span><?php echo $this->__('Submit Answer') ?></span></span></span></button>
+						</td>
+					</tr>
+                </tbody>
+			</table>
+        </div>
+    </div>
+</div>
+<div class="box-right">
+    <!--Account Information-->
+    <div class="entry-edit">
+        <div class="entry-edit-head">
+            <h4 class="icon-head head-esatisfaction-order-analytical-info"><?php echo $this->__('Detailed information') ?></h4>
+            <div class="tools"></div>
+        </div>
+		<div class="box"  >
+			<div>            
+				<ul class="e-satisfaction-tabs tabs-horiz" id="">
+					<li class="tab-item-link active first" id="esatisfaction_analystical_checkout_info">
+						<a href="javascript:void(0)"><img src="<?php echo $media_folder; ?>esatisfaction/checkout_icon.png" id="ordr_pg_icon_checkout_tab" /><span><?php echo $this->__('Checkout Surveys') ?></span></a>
+					</li>
+					<li class="tab-item-link last" id="esatisfaction_analystical_after_sales_info">
+						<a href="javascript:void(0)"><img src="<?php echo $media_folder; ?>esatisfaction/after_sales_icon.png" id="ordr_pg_icon_aftersales_tab" /><span><?php echo $this->__('After Sales Surveys') ?></span></a>
+					</li>
+				</ul>
+				<div class="padder">
+					<div id="esatisfaction_analystical_checkout_info_contents">
+						<div class="e-satisfaction-half-width">
+							<table cellspacing="0" class="form-list">
+								<tbody>
+									<tr>
+										<td class="label"><label><?php echo $this->__('General Satisfaction:') ?></label></td>
+										<td class="value"><strong id="ordr_pg_general_satisf_checkout"></strong></td>
+									</tr>
+									<tr>
+										<td class="label"><label><?php echo $this->__('Product Range:') ?></label></td>
+										<td class="value"><strong id="ordr_pg_checkout_prodrange"></strong></td>
+									</tr>
+									<tr>
+										<td class="label"><label><?php echo $this->__('Availability:') ?></label></td>
+										<td class="value"><strong id="ordr_pg_checkout_availability"></strong></td>
+									</tr>
+									<tr>
+										<td class="label"><label><?php echo $this->__('Prices:') ?></label></td>
+										<td class="value"><strong id="ordr_pg_checkout_prices"></strong></td>
+									</tr>
+									<tr>
+										<td class="label"><label><?php echo $this->__('Safety:') ?></label></td>
+										<td class="value"><strong id="ordr_pg_checkout_safety"></strong></td>
+									</tr>
+									<tr>
+										<td class="label"><label><?php echo $this->__('Usability:') ?></label></td>
+										<td class="value"><strong id="ordr_pg_checkout_usability"></strong></td>
+									</tr>
+									<tr>
+										<td class="label"><label><?php echo $this->__('Product Presentation:') ?></label></td>
+										<td class="value"><strong id="ordr_pg_checkout_prodpresentation"></strong></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="e-satisfaction-half-width">
+							<table cellspacing="0" class="form-list">
+								<tbody>
+									<tr>
+										<td class="label"><label><?php echo $this->__('Recommendation:') ?></label></td>
+										<td class="value"><img id="ordr_pg_checkout_recommend" src="" class="esatisfaction_order_checkout_recommend_img" /></td>
+									</tr>
+									<tr>
+										<td class="label"><label><?php echo $this->__('Scheduled:') ?></label></td>
+										<td class="value"><strong id="ordr_pg_checkout_scheduled"></strong></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div id="esatisfaction_analystical_after_sales_info_contents">
+						<div class="e-satisfaction-half-width">
+							<table cellspacing="0" class="form-list">
+								<tbody>
+									<tr>
+										<td class="label"><label><?php echo $this->__('General Satisfaction:') ?></label></td>
+										<td class="value"><strong id="ordr_pg_general_satisf_aftersales"></strong></td>
+									</tr>
+									<tr>
+										<td class="label"><label><?php echo $this->__('Delivery Time:') ?></label></td>
+										<td class="value"><strong id="ordr_pg_aftersales_delivtime"></strong></td>
+									</tr>
+									<tr>
+										<td class="label"><label><?php echo $this->__('Delivery Cost:') ?></label></td>
+										<td class="value"><strong id="ordr_pg_aftersales_delivcost"></strong></td>
+									</tr>
+									<tr>
+										<td class="label"><label><?php echo $this->__('Product Condition:') ?></label></td>
+										<td class="value"><strong id="ordr_pg_aftersales_prodcond"></strong></td>
+									</tr>
+									<tr>
+										<td class="label"><label><?php echo $this->__('After Sales Receive:') ?></label></td>
+										<td class="value"><strong id="ordr_pg_aftersales_receive"></strong></td>
+									</tr>
+									<tr>
+										<td class="label"><label><?php echo $this->__('Product Boxing:') ?></label></td>
+										<td class="value"><strong id="ordr_pg_aftersales_prodbox"></strong></td>
+									</tr>
+									<tr>
+										<td class="label"><label><?php echo $this->__('Store Service:') ?></label></td>
+										<td class="value"><strong id="ordr_pg_aftersales_storeservice"></strong></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="e-satisfaction-half-width">
+							<table cellspacing="0" class="form-list">
+								<tbody>
+									<tr>
+										<td class="label"><label><?php echo $this->__('Recommendation:') ?></label></td>
+										<td class="value"><img id="ordr_pg_aftersales_recommend" src="" class="esatisfaction_order_checkout_recommend_img" /></td>
+									</tr>
+									<tr>
+										<td class="label"><label><?php echo $this->__('Would You Buy Again:') ?></label></td>
+										<td class="value"><strong id="ordr_pg_aftersales_buyagain"></strong></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="clear"></div>
+				</div>
+            </div>
+		</div>
+    </div>
+</div>
+<div class="clear"></div>
+<div class="esatisfaction-footer-banner">
+	<a href="" class="banner-link" target="_blank">
+		<img src="" width="600" height="100" id="ordr_pg_banner_link" />
+	</a>
+	<a href="http://www.e-satisfaction.gr/dashboard" id="view-more-at-esatisfaction" class="button e-satisfaction-button" target="_blank"><?php echo $this->__('View more at e-satisfaction') ?></a>	
+	<div class="clear"></div>
+</div>
+<style>
+
+</style>
+<script type="text/javascript">//<![CDATA[
+Varien.Tabs = Class.create();
+Varien.Tabs.prototype = {
+  initialize: function(selector) {
+    var self=this;
+    $$(selector+' a').each(this.initTab.bind(this));
+  },
+
+  initTab: function(el) {
+      el.href = 'javascript:void(0)';
+      if ($(el.parentNode).hasClassName('active')) {
+        this.showContent(el);
+      }
+      el.observe('click', this.showContent.bind(this, el));
+  },
+
+  showContent: function(a) {
+    var li = $(a.parentNode), ul = $(li.parentNode);
+    ul.getElementsBySelector('li', 'ol').each(function(el){
+      var contents = $(el.id+'_contents');
+      if (el==li) {
+        el.addClassName('active');		 
+        contents.show();
+      } else {
+        el.removeClassName('active');
+        contents.hide();
+      }
+    });
+  }
+}
+new Varien.Tabs('.e-satisfaction-tabs');
+//]]></script>
+
+<script type="text/javascript">//<![CDATA[
+	
+
+	var buildAuth = function(request,method){
+	var private_key = '<?php echo $private_key; ?>';
+	var public_key = '<?php echo $public_key; ?>';
+		var timestamp = (new Date().getTime() / 1000).toString();
+		var hash = CryptoJS.HmacSHA256(public_key+timestamp+ method, private_key);
+		var hashInBase64 = CryptoJS.enc.Base64.stringify(hash);
+		setHeaders(request, public_key, timestamp, hashInBase64)
+	}     
+
+	var setHeaders = function(request, public_key, timestamp, hashInBase64){
+		request.setRequestHeader('X-HASH', hashInBase64);
+		request.setRequestHeader('X-Public', public_key); 
+		request.setRequestHeader('X-Microtime', timestamp);
+	}
+	
+	var getOrder = function(site_id, order_id) { 
+		$j.ajax({
+			type: "GET",
+			url:"https://www.e-satisfaction.gr/api/v2/prestashop/order_details/"+site_id,
+			contentType: "application/json; charset=utf-8",
+			dataType: "json",
+			data:{'order_id':order_id},
+			beforeSend: function (request) {
+				buildAuth(request,this.type);
+			},
+			success: function (data) {	
+				if(data){
+					if(data['error']){
+						$j('#sales_order_view_tabs_esatisfaction_order_tab').parent().remove();
+						$j('#sales_order_view_tabs_esatisfaction_order_tab_content').remove();
+					}else {
+						$j('#sales_order_view_tabs_esatisfaction_order_tab').css('display','block');
+						var newData = [];
+						
+						for(var i=0; i < data.length; i++){
+							kyz = Object.keys(data[i]);
+							val = Object.values(data[i])
+							newData[kyz[0]] = val[0];
+						}
+						if(newData['ordr_pg_esat_logo']){
+							if(newData['ordr_pg_esat_logo'] != '-'){
+								$j('#ordr_pg_esat_logo').attr('src',newData['ordr_pg_esat_logo']);
+							}
+						}else{
+							$j('#ordr_pg_esat_logo').remove();
+						}
+						
+						if(newData['ordr_pg_general_satisf_checkout']){
+							$j('#ordr_pg_general_satisf_checkout_basic').text(newData['ordr_pg_general_satisf_checkout']);
+						}else{
+							$j('#ordr_pg_general_satisf_checkout_basic').text('-');
+						}
+						
+						if(newData['ordr_pg_general_satisf_aftersales']){
+							$j('#ordr_pg_general_satisf_aftersales_basic').text(newData['ordr_pg_general_satisf_aftersales']);
+						}else{
+							$j('#ordr_pg_general_satisf_aftersales_basic').text('-');
+						}
+						
+						var pg_aftersales_recommend = 0;
+						var pg_checkout_recommend = 0;
+						
+						if(newData['ordr_pg_aftersales_recommend']){
+							if(newData['ordr_pg_aftersales_recommend'] != '-'){
+								$j('#ordr_pg_recommend_basic').attr('src',newData['ordr_pg_aftersales_recommend']);
+								pg_aftersales_recommend = 1;
+							}
+						}
+						if(newData['ordr_pg_checkout_recommend']){
+							if(newData['ordr_pg_checkout_recommend'] != '-'){
+								$j('#ordr_pg_recommend_basic').attr('src',newData['ordr_pg_checkout_recommend']);
+								pg_checkout_recommend = 1;
+							}
+						}
+						
+						if(pg_checkout_recommend == 0 && pg_aftersales_recommend == 0){
+							$j('#ordr_pg_recommend_basic').parent().html('-');
+						}
+						
+						if(newData['ordr_pg_buyagain']){
+							if(newData['ordr_pg_buyagain'] == 1){
+								$j('#ordr_pg_buyagain_basic').text('<?php echo $this->__('Yes'); ?>');
+							}
+							if(newData['ordr_pg_buyagain'] == 2){
+								$j('#ordr_pg_buyagain_basic').text('<?php echo $this->__('No'); ?>');
+							}
+						}else if(newData['ordr_pg_aftersales_buyagain']){
+							if(newData['ordr_pg_aftersales_buyagain'] == 1){
+								$j('#ordr_pg_buyagain_basic').text('<?php echo $this->__('Yes'); ?>');
+							}
+							if(newData['ordr_pg_aftersales_buyagain'] == 2){
+								$j('#ordr_pg_buyagain_basic').text('<?php echo $this->__('No'); ?>');
+							}
+						}else{
+							$j('#ordr_pg_buyagain_basic').text('-');
+						}
+						
+						var checkout_comments = 0;
+						
+						if(newData['ordr_pg_checkout_comments_text']){
+							checkout_comments = 1;
+							
+							
+							$j('#ordr_pg_comments_text').text(newData['ordr_pg_checkout_comments_text']);
+							$j('input[name="esatisfaction[checkout_comment]"]').val(newData['ordr_pg_aftersales_comments_text']);
+						}else{
+							$j('#e-satisfaction-order-checkout-comments-container').remove();
+						}
+						
+						
+						if(newData['ordr_pg_general_satisf_checkout']){
+							$j('#ordr_pg_general_satisf_checkout').text(newData['ordr_pg_general_satisf_checkout']);
+						}else{
+							$j('#ordr_pg_general_satisf_checkout').text('-');
+						}
+						
+						if(newData['ordr_pg_checkout_prodrange']){
+							$j('#ordr_pg_checkout_prodrange').text(newData['ordr_pg_checkout_prodrange']);
+						}else{
+							$j('#ordr_pg_checkout_prodrange').text('-');
+						}
+						
+						if(newData['ordr_pg_checkout_availability']){
+							$j('#ordr_pg_checkout_availability').text(newData['ordr_pg_checkout_availability']);
+						}else{
+							$j('#ordr_pg_checkout_availability').text('-');
+						}
+						
+						if(newData['ordr_pg_checkout_prices']){
+							$j('#ordr_pg_checkout_prices').text(newData['ordr_pg_checkout_prices']);
+						}else{
+							$j('#ordr_pg_checkout_prices').text('-');
+						}
+						
+						if(newData['ordr_pg_checkout_safety']){
+							$j('#ordr_pg_checkout_safety').text(newData['ordr_pg_checkout_safety']);
+						}else{
+							$j('#ordr_pg_checkout_safety').text('-');
+						}
+						
+						if(newData['ordr_pg_checkout_usability']){
+							$j('#ordr_pg_checkout_usability').text(newData['ordr_pg_checkout_usability']);
+						}else{
+							$j('#ordr_pg_checkout_usability').text('-');
+						}
+						
+						if(newData['ordr_pg_checkout_prodpresentation']){
+							$j('#ordr_pg_checkout_prodpresentation').text(newData['ordr_pg_checkout_prodpresentation']);
+						}else{
+							$j('#ordr_pg_checkout_prodpresentation').text('-');
+						}
+						
+						if(newData['ordr_pg_checkout_recommend']){
+							if(newData['ordr_pg_checkout_recommend'] != '-'){
+								$j('#ordr_pg_checkout_recommend').attr('src',newData['ordr_pg_checkout_recommend']);
+							}else{
+								$j('#ordr_pg_checkout_recommend').parent().html('-');
+							}
+						}else{
+							$j('#ordr_pg_checkout_recommend').parent().html('-');
+						}
+						
+						if(newData['ordr_pg_checkout_scheduled']){
+							if(newData['ordr_pg_checkout_scheduled'] == 1){
+								$j('#ordr_pg_checkout_scheduled').text('Αυθόρμητη');
+							}else{
+								$j('#ordr_pg_checkout_scheduled').text('Προγραμματισμένη');
+							}
+						}else{
+							$j('#ordr_pg_checkout_scheduled').text('-');
+						}
+						
+						if(newData['ordr_pg_general_satisf_aftersales']){
+							$j('#ordr_pg_general_satisf_aftersales').text(newData['ordr_pg_general_satisf_aftersales']);
+						}else{
+							$j('#ordr_pg_general_satisf_aftersales').text('-');
+						}
+						
+						if(newData['ordr_pg_aftersales_delivtime']){
+							$j('#ordr_pg_aftersales_delivtime').text(newData['ordr_pg_aftersales_delivtime']);
+						}else{
+							$j('#ordr_pg_aftersales_delivtime').text('-');
+						}
+						
+						if(newData['ordr_pg_aftersales_delivcost']){
+							$j('#ordr_pg_aftersales_delivcost').text(newData['ordr_pg_aftersales_delivcost']);
+						}else{
+							$j('#ordr_pg_aftersales_delivcost').text('-');
+						}
+						
+						if(newData['ordr_pg_aftersales_prodcond']){
+							$j('#ordr_pg_aftersales_prodcond').text(newData['ordr_pg_aftersales_prodcond']);
+						}else{
+							$j('#ordr_pg_aftersales_prodcond').text('-');
+						}
+						
+						if(newData['ordr_pg_aftersales_receive']){
+							$j('#ordr_pg_aftersales_receive').text(newData['ordr_pg_aftersales_receive']);
+						}else{
+							$j('#ordr_pg_aftersales_receive').text('-');
+						}
+						
+						if(newData['ordr_pg_aftersales_prodbox']){
+							$j('#ordr_pg_aftersales_prodbox').text(newData['ordr_pg_aftersales_prodbox']);
+						}else{
+							$j('#ordr_pg_aftersales_prodbox').text('-');
+						}
+						
+						if(newData['ordr_pg_aftersales_storeservice']){
+							$j('#ordr_pg_aftersales_storeservice').text(newData['ordr_pg_aftersales_storeservice']);
+						}else{
+							$j('#ordr_pg_aftersales_storeservice').text('-');
+						}
+						
+						if(newData['ordr_pg_aftersales_buyagain']){
+							if(newData['ordr_pg_aftersales_buyagain'] == 1){
+								$j('#ordr_pg_aftersales_buyagain').text('<?php echo $this->__('Yes') ?>');
+							}
+							if(newData['ordr_pg_aftersales_buyagain'] == 2){
+								$j('#ordr_pg_aftersales_buyagain').text('<?php echo $this->__('No') ?>');
+							}
+							
+						}else{
+							$j('#ordr_pg_aftersales_buyagain').text('-');
+						}
+						
+						var after_sales_comments = 0;
+						if(newData['ordr_pg_aftersales_comments_text']){
+							after_sales_comments = 1;
+							if(newData['ordr_pg_icon_aftersales']){
+								if(newData['ordr_pg_icon_aftersales'] != '-'){
+									$j('#ordr_pg_icon_aftersales').attr('src',newData['ordr_pg_icon_aftersales']);
+								}
+							}
+							$j('#ordr_pg_after_sales_comments_text').text(newData['ordr_pg_aftersales_comments_text']);
+							$j('input[name="esatisfaction[after_sales_comment]"]').val(newData['ordr_pg_aftersales_comments_text']);
+						}else{
+							$j('#esatisfaction-order-after-sales-comments-container').remove();
+						}
+						
+							
+						if(!checkout_comments && !after_sales_comments){
+							var html = '';
+							html += '<div class="entry-edit" id="e-satisfaction-order-checkout-comments-container">';
+							html += '	<div class="entry-edit-head">';
+							html += '		<h4 class="icon-head head-esatisfaction-order-checkout-comments"><?php echo $this->__('Comments'); ?></h4>';
+							html += '	</div>';
+							html += '	<div class="fieldset">';
+							html +=	'		<?php echo $this->__('No Comments on this order'); ?>';
+							html += '	</div>';
+							html += '</div>';
+							
+							$j('#esatisfaction-order-general-container').after(html);
+						}
+						
+						if(newData['ordr_pg_aftersales_recommend']){
+							if(newData['ordr_pg_aftersales_recommend'] != '-'){
+								$j('#ordr_pg_aftersales_recommend').attr('src',newData['ordr_pg_aftersales_recommend']);
+							}else{
+								$j('#ordr_pg_aftersales_recommend').parent().html('-');
+							}
+						}else{
+							$j('#ordr_pg_aftersales_recommend').parent().html('-');
+						}
+						
+						if(newData['ordr_pg_banner_link']){
+							if(newData['ordr_pg_banner_link'] != '-'){
+								$j('#ordr_pg_banner_link').attr('src',newData['ordr_pg_banner_link']);
+							}else{
+								$j('#ordr_pg_banner_link').remove();
+							}
+						}else{
+							$j('#ordr_pg_banner_link').remove();
+						}
+						
+						$j.ajax({
+							type: "GET",
+							url:"https://www.e-satisfaction.gr/api/v2/prestashop/aggregated_order_page/<?php echo $site_id; ?>",
+							contentType: "application/json; charset=utf-8",
+							dataType: "json",
+							data:{'order_id':<?php echo $_order->getId(); ?>},
+							beforeSend: function (request) {
+								buildAuth(request,this.type);
+							},
+							success: function (data) {			
+								var imageFound = 0;
+								if(data){
+									if(!data['error']){
+										if(data['ordrlist_pg_imgurl']){
+											if(data['ordrlist_pg_imgurl'] != '-'){
+												$j('#sales_order_view_tabs_esatisfaction_order_tab > span').append('<img style="float:right;height:18px;" src="'+data['ordrlist_pg_imgurl']+'" />');
+											}
+										}
+									}
+								}
+								
+								
+								//alert(JSON.stringify(data));
+							},
+							error: function (errorMessage) {
+								if(errorMessage.status == 401) alert('Access denied');
+							}
+						});
+				
+					}
+				}else{
+					$j('#sales_order_view_tabs_esatisfaction_order_tab').parent().remove();
+					$j('#sales_order_view_tabs_esatisfaction_order_tab_content').remove();
+				}
+			},
+			error: function (errorMessage) {
+				if(errorMessage.status == 401) alert('Access denied');
+			}
+		});
+	};
+	var site_id = <?php echo $site_id; ?>;
+	var order_id = <?php echo $_order->getId(); ?>;
+	
+	getOrder(site_id, order_id);
+	
+	
+//]]></script>
+<script type="text/javascript">//<![CDATA[
+	function sendEsatisfactionCheckoutCommentAnswer(){
+		var request_data = {
+			'email_to' 		: '<?php echo $this->escapeHtml($_order->getCustomerEmail()) ?>',
+			'customer_name' : '<?php echo $this->escapeHtml($_order->getCustomerName()) ?>',
+			'order_id'   	: '<?php echo $_order->getId(); ?>',
+			'stage'   		: 'Checkout',
+			'comment'   	: $j('#ordr_pg_comments_text').text(),
+			'answer'   		: $j('#esatisfaction_checkout_comment_answer').val()
+		};
+		new Ajax.Request("<?php echo   $this->getUrl('adminhtml/esatisfaction_sendemails') ?>", {
+           method: 'Post',
+           parameters: request_data, 
+           onComplete: function() {
+				var html = '';
+				html += '<tr>';
+				html += '	<td></td>';
+				html += '	<td>';
+				html += '		<small>';
+				html += '			Customer';
+				html += '			<strong class="subdue">';
+				html +=	'				Notified';
+				html += '				<img src="<?php echo $this->getSkinUrl('images/ico_success.gif'); ?>" width="16" height="16" alt="">';
+				html += '			</strong>';
+				html += '		</small>';
+				html += '	</td>';
+				html += '</tr>';
+				
+				$j('#e-satisfaction-order-checkout-comments-container tbody').append(html);
+           }
+       });
+	}
+//]]></script>
+<script type="text/javascript">//<![CDATA[
+	function sendEsatisfactionAfterSalesCommentAnswer(){
+		var request_data = {
+			'email_to' 		: '<?php echo $this->escapeHtml($_order->getCustomerEmail()) ?>',
+			'customer_name' : '<?php echo $this->escapeHtml($_order->getCustomerName()) ?>',
+			'order_id'   	: '<?php echo $_order->getId(); ?>',
+			'stage'   		: 'After sales',
+			'comment'   	: $j('#ordr_pg_after_sales_comments_text').text(),
+			'answer'   		: $j('#esatisfaction_after_sales_comment_answer').val()
+		};
+		new Ajax.Request("<?php echo   $this->getUrl('adminhtml/esatisfaction_sendemails') ?>", {
+           method: 'Post',
+           parameters: request_data,
+           onComplete: function() {
+				var html = '';
+				html += '<tr>';
+				html += '	<td></td>';
+				html += '	<td>';
+				html += '		<small>';
+				html += '			Customer';
+				html += '			<strong class="subdue">';
+				html +=	'				Notified';
+				html += '				<img src="<?php echo $this->getSkinUrl('images/ico_success.gif'); ?>" width="16" height="16" alt="">';
+				html += '			</strong>';
+				html += '		</small>';
+				html += '	</td>';
+				html += '</tr>';
+				
+				$j('#esatisfaction-order-after-sales-comments-container tbody').append(html);
+           }
+       });
+	}
+//]]></script>

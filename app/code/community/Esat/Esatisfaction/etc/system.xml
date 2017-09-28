@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+<config>
+    <tabs>
+        <esatisfaction translate="label" module="esatisfaction">
+            <label><![CDATA[<div id="config-esat-tab-container"></div>]]></label>
+            <sort_order>1</sort_order>
+        </esatisfaction>
+    </tabs>
+     
+    <sections>
+        <esatisfaction translate="label" module="esatisfaction">
+            <label>e-satisfaction Settings</label>
+            <tab>esatisfaction</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>1</sort_order>
+            <show_in_default>1</show_in_default>
+            <groups>
+                <section_one translate="label">
+                    <label>e-satisfaction Settings</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>1</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>                
+                    <fields>
+                        <esatisfaction_site_id>
+                            <label>Site ID</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <comment></comment>                   
+                        </esatisfaction_site_id>
+                        <esatisfaction_site_authentication_key>
+                            <label>Site Authentication Key</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <comment></comment>                   
+                        </esatisfaction_site_authentication_key>
+                        <esatisfaction_site_public_key>
+                            <label>Public Key</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <comment></comment>                   
+                        </esatisfaction_site_public_key>
+                        <esatisfaction_site_private_key>
+                            <label>Private Key</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <comment></comment>                   
+                        </esatisfaction_site_private_key>
+                        <esatisfaction_browse_questions>
+                            <label>Browse Questions</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>esatisfaction/options</source_model>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <comment></comment>                   
+                        </esatisfaction_browse_questions>
+                        <esatisfaction_checkout_questionnaires>
+                            <label>Checkout Questionnaires</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>esatisfaction/options</source_model>
+                            <sort_order>6</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <comment></comment>                   
+                        </esatisfaction_checkout_questionnaires>
+                        <esatisfaction_after_sales_surveys>
+                            <label>After Sales Surveys</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>esatisfaction/options</source_model>
+                            <sort_order>7</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <comment></comment>                   
+                        </esatisfaction_after_sales_surveys>
+                        <esatisfaction_custom_questions>
+                            <label>Custom Questions</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>esatisfaction/options</source_model>
+                            <sort_order>11</sort_order>
+                            <show_in_default>0</show_in_default>
+                            <comment></comment>
+                        </esatisfaction_custom_questions>
+                    </fields> 
+                </section_one>
+            </groups>                
+        </esatisfaction>
+    </sections>
+</config>

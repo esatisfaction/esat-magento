@@ -1,0 +1,56 @@
+<script type="text/javascript">
+<?php $site_id 		= Mage::getStoreConfig('esatisfaction/section_one/esatisfaction_site_id'); ?> 
+<?php $public_key 	= Mage::getStoreConfig('esatisfaction/section_one/esatisfaction_site_public_key'); ?> 
+<?php $private_key 	= Mage::getStoreConfig('esatisfaction/section_one/esatisfaction_site_private_key'); ?> 
+
+var buildAuth = function(request,method){
+	var private_key = '<?php echo $private_key; ?>';
+	var public_key = '<?php echo $public_key; ?>'; 
+	var timestamp = (new Date().getTime() / 1000).toString();
+	var hash = CryptoJS.HmacSHA256(public_key+timestamp+ method, private_key);
+	var hashInBase64 = CryptoJS.enc.Base64.stringify(hash);
+	setHeaders(request, public_key, timestamp, hashInBase64)
+}     
+
+var setHeaders = function(request, public_key, timestamp, hashInBase64){
+	request.setRequestHeader('X-HASH', hashInBase64);
+	request.setRequestHeader('X-Public', public_key);
+	request.setRequestHeader('X-Microtime', timestamp);
+}
+
+
+var getAggregatedOrders = function(order_id) {
+	$j.ajax({
+		type: "GET",
+		url:"https://www.e-satisfaction.gr/api/v2/prestashop/aggregated_order_page/<?php echo $site_id; ?>",
+		contentType: "application/json; charset=utf-8",
+		dataType: "json",
+		data:{'order_id':order_id},
+		beforeSend: function (request) {
+			buildAuth(request,this.type);
+		},
+		success: function (data) {			
+			var imageFound = 0;
+			if(data){
+				if(!data['error']){
+					if(data['ordrlist_pg_imgurl']){
+						if(data['ordrlist_pg_imgurl'] != '-'){
+							$j('#esatisfaction-smiley-order-'+order_id+'-img').attr('src',data['ordrlist_pg_imgurl']);
+							imageFound = 1;
+						}
+					}
+				}
+			}
+			if(imageFound == 0){
+				$j('#esatisfaction-smiley-order-'+order_id).html('-');
+			}
+			
+			
+			//alert(JSON.stringify(data));
+		},
+		error: function (errorMessage) {
+			if(errorMessage.status == 401) alert('Access denied');
+		}
+	});
+};
+</script>

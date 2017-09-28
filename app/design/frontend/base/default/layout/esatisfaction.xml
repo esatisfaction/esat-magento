@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- all layout files begin with this node -->
+<layout>
+    <!-- this is the layout handle we are interested in -->
+    <default>
+		<reference name="head">
+			<action method="addJs"><script>esatisfaction/hmac-sha256.js</script></action>
+			<action method="addJs"><script>esatisfaction/enc-base64-min.js</script></action>
+		</reference>
+        <!-- this is the name of the block we want to add to -->
+        <reference name="before_body_end" >
+            <block type="esatisfaction/footerscripts" 
+                   name="esatisfaction_default_footer_scripts" 
+                   template="esatisfaction/footer_scripts.phtml" />
+        </reference>
+    </default>
+    <checkout_onepage_success>
+		<reference name="content">
+            <block type="esatisfaction/checkoutsuccessscripts" name="esatisfaction.checkout.success.scripts" template="esatisfaction/checkout/success_scripts.phtml"/>
+        </reference>
+	</checkout_onepage_success>
+</layout>

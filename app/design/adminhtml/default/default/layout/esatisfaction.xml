@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<layout>
+    <adminhtml_system_config_edit>
+		<reference name="head">
+			<action method="addJs"><script>esatisfaction/jquery-2.1.3.min.js</script></action>
+			<action method="addJs"><script>esatisfaction/hmac-sha256.js</script></action>
+			<action method="addJs"><script>esatisfaction/enc-base64-min.js</script></action>
+			<action method="addCss"><script>esatisfaction/esatisfaction.css</script></action>
+		</reference>
+		<reference name="content" >
+			<block type="core/template" name="esatisfaction_sytem_get_settings" template="esatisfaction/jsinit.phtml"></block>
+		</reference>
+    </adminhtml_system_config_edit>
+	<adminhtml_sales_order_index>
+		<reference name="head">
+			<action method="addJs"><script>esatisfaction/jquery-2.1.3.min.js</script></action>
+			<action method="addJs"><script>esatisfaction/hmac-sha256.js</script></action>
+			<action method="addJs"><script>esatisfaction/enc-base64-min.js</script></action>
+			<action method="addCss"><script>esatisfaction/esatisfaction.css</script></action>
+		</reference>
+		<reference name="content" >
+			<block type="core/template" name="esatisfaction_aggregatedorders_block" template="esatisfaction/aggregatedorders.phtml" before="sales_order.grid"></block>
+		</reference>
+	</adminhtml_sales_order_index>
+	<adminhtml_sales_order_view>
+		<reference name="head">
+			<action method="addJs"><script>esatisfaction/jquery-2.1.3.min.js</script></action>
+			<action method="addJs"><script>esatisfaction/hmac-sha256.js</script></action>
+			<action method="addJs"><script>esatisfaction/enc-base64-min.js</script></action>
+			<action method="addCss"><script>esatisfaction/esatisfaction.css</script></action>
+		</reference> 
+		<reference name="sales_order_tabs">
+			<action method="addTab">
+				<name>esatisfaction_order_tab</name>
+				<block>esatisfaction/adminhtml_order_view_tab_esatisfaction</block>
+			</action>
+		</reference>
+	</adminhtml_sales_order_view>
+	<adminhtml_customer_edit>
+		<reference name="head">
+			<action method="addJs"><script>esatisfaction/jquery-2.1.3.min.js</script></action>
+			<action method="addJs"><script>esatisfaction/hmac-sha256.js</script></action>
+			<action method="addJs"><script>esatisfaction/enc-base64-min.js</script></action>
+			<action method="addCss"><script>esatisfaction/esatisfaction.css</script></action>
+		</reference>
+		<reference name="customer_edit_tabs">
+			<action method="addTab">
+				<name>esatisfaction_customer_tab</name>
+				<block>esatisfaction/adminhtml_customer_tab</block>
+			</action> 
+		</reference>
+		<reference name="content" >
+			<block type="core/template" name="esatisfaction_customerorders_block" template="esatisfaction/customerorders.phtml" ></block>
+		</reference> 
+	</adminhtml_customer_edit>
+    <adminhtml_customer_esatisfaction>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="esatisfaction/adminhtml_customer_edit_tab_esatisfaction" name="adminhtml.customer.edit.tab.esatisfaction"/>
+        </block>
+    </adminhtml_customer_esatisfaction>
+    <adminhtml_esatisfaction_customquestions_index>
+		<reference name="head">
+			<action method="addJs"><script>esatisfaction/jquery-2.1.3.min.js</script></action>
+			<action method="addJs"><script>esatisfaction/hmac-sha256.js</script></action>
+			<action method="addJs"><script>esatisfaction/enc-base64-min.js</script></action>
+		</reference>
+		<reference name="content">
+			<block type="esatisfaction/adminhtml_customquestions" name="esatisfaction_customquestions_block" template="esatisfaction/customquestions.phtml"></block>
+		</reference>
+    </adminhtml_esatisfaction_customquestions_index>
+</layout>

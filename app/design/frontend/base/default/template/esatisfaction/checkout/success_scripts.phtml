@@ -1,0 +1,13 @@
+<script type="text/javascript">
+$j('.page-title').after('<div id="checkout-questionnaire"></div>');
+
+<?php $order_id = $this->getOrderId(); ?>
+<?php $token = $this->getToken(); ?>
+<?php $email = $this->getCustomerEmail(); ?>
+
+var _esatisf = _esatisf || []; 
+_esatisf.push(['_responder', '<?php echo $order_id; ?>']);
+_esatisf.push(['_token', '<?php echo $token; ?>']); 
+_esatisf.push(['_email', '<?php echo $email; ?>']);
+_esatisf.push(['_showQuestionnaire', '#checkout-questionnaire']); 
+</script>

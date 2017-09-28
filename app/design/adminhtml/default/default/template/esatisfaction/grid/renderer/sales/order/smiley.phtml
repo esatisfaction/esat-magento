@@ -1,0 +1,10 @@
+<?php if ($this->canRender()): ?>
+	<?php $order_id = $this->getOrder()->getId(); ?>
+    <div class="smile-container" id="esatisfaction-smiley-order-<?php echo $order_id; ?>">
+		<img src="" id="esatisfaction-smiley-order-<?php echo $order_id; ?>-img" />
+	</div>
+<?php endif; ?>
+
+<script type="text/javascript">
+getAggregatedOrders(<?php echo $order_id; ?>);
+</script>

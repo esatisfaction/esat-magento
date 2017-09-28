@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Esat_Esatisfaction>
+            <active>true</active>
+            <codePool>community</codePool>
+            <extension_name>e-satisfaction</extension_name>
+            <free>1</free>
+        </Esat_Esatisfaction>
+    </modules>
+</config>

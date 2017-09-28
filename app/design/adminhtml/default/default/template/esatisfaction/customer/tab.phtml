@@ -1,0 +1,105 @@
+﻿<div>
+	<div id="esatisfactionCustomerGrid">
+		<div class="grid">
+			<div class="hor-scroll">
+				<table cellspacing="0" class="data" id="esatisfactionCustomerGrid_table">
+					<colgroup>
+						<col>
+						<col>
+						<col>
+						<col>
+						<col>
+						<col>
+						<col>
+					</colgroup>
+					<thead>
+						<tr class="headings">
+							<th class=" no-link"><span class="nobr"></span></th>
+							<th class=" no-link"><span class="nobr">Order Id</span></th>
+							<th class=" no-link"><span class="nobr">General Satisfaction</span></th>
+							<th class=" no-link"><span class="nobr">NPS</span></th>
+							<th class=" no-link"><span class="nobr">Comment</span></th>
+							<th class=" no-link"><span class="nobr">Προγραμματισμένη</span></th>
+							<th class=" no-link last"><span class="nobr">Ημερομηνία</span></th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+			</div>	
+		</div>
+	</div>
+</div>
+<style>
+	.customer-main-view-more td strong,
+	.e-satisfaction-customer td strong{
+		margin: .3em .5em 0 0;
+		font-size: 1.25em;
+		line-height: 38px;
+		color: #28a9e1;
+		font-weight: bold;
+	}
+	.e-satisfaction-button{
+		border: solid 1px #28a9e1;
+		background: #28a9e1;
+		text-align: center;
+		border-radius: 3px;
+		-webkit-border-radius: 3px;
+		-moz-border-radius: 3px;
+		-o-border-radius: 3px;
+		cursor: pointer;
+		margin: 0px 0 0 0px;
+		display: inline-block;
+		color: #fff;
+		text-decoration: none;
+		padding: 5px 20px;
+		font-size: 17px;
+		font-weight:bold;
+		transition:all 0.3s linear;
+		
+	}
+	.e-satisfaction-button:hover{
+		background:#0092D2;
+		text-decoration: none;
+		color:#28a9e1;
+	}
+	.customer-main-view-more #view-more-at-esatisfaction img{
+		height:22px;
+	}
+</style>
+<script type="text/javascript">//<![CDATA[
+	$j(document).ready(function(){
+		var html = '';
+		html += '<div class="entry-edit">';
+		html += '	<div class="entry-edit-head">';
+		html += '		<h4 class="icon-head head-customer-view">e-Satisfaction</h4>';
+		html += '	</div>';
+		html += '	<fieldset>';
+		html += '		<table cellspacing="2" class="box-left">';
+        html += '		    <tbody>';
+		html += '				<tr class="e-satisfaction-customer">';
+		html += '					<td><strong>Customer Mood: </strong></td>';
+		html += '					<td><img id="customer-main-mood-icon" src="" /></td>';
+		html += '				</tr>';
+		html += '			</tbody>';
+		html += '		</table>';
+		html += '		<table cellspacing="2" class="box-right">';
+		html += '				<tr class="customer-main-view-more">';
+		html += '					<td><strong>Click Here for more:</strong></td>';
+		html += '					<td>';
+		html += '						<a id="view-more-at-esatisfaction" class="button e-satisfaction-button" href="http://www.e-satisfaction.gr/dashboard" target="_blank" >';
+		html += '							<img src="/magento/skin/adminhtml/default/default/images/esatisfaction/logo.png" />';
+		html += '						</a>';
+		html += '					</td>';
+		html += '				</tr>';
+		html += '			</tbody>';
+		html += '		</table>';
+		html += '	</fieldset>';
+		html += '</div>';
+
+		$j('#customer_info_tabs_customer_edit_tab_view_content').prepend(html);
+		
+		$j('#customer_info_tabs_esatisfaction_customer_tab > span').append('<img style="float:right;height:18px;" src="/magento/skin/adminhtml/default/default/images/esatisfaction/exclamation-20x20.png" />');
+            
+	});
+//]]></script>

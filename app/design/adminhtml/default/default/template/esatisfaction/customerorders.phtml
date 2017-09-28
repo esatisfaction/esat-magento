@@ -1,0 +1,92 @@
+<script type="text/javascript">
+
+<?php $site_id 	= Mage::getStoreConfig('esatisfaction/section_one/esatisfaction_site_id'); ?> 
+<?php $public_key 	= Mage::getStoreConfig('esatisfaction/section_one/esatisfaction_site_public_key'); ?> 
+<?php $private_key 	= Mage::getStoreConfig('esatisfaction/section_one/esatisfaction_site_private_key'); ?> 
+
+var buildAuth = function(request,method){
+	var private_key = '<?php echo $private_key; ?>';
+	var public_key = '<?php echo $public_key; ?>';
+	var timestamp = (new Date().getTime() / 1000).toString();
+	var hash = CryptoJS.HmacSHA256(public_key+timestamp+ method, private_key);
+	var hashInBase64 = CryptoJS.enc.Base64.stringify(hash);
+	setHeaders(request, public_key, timestamp, hashInBase64)
+}     
+
+var setHeaders = function(request, public_key, timestamp, hashInBase64){
+	request.setRequestHeader('X-HASH', hashInBase64);
+	request.setRequestHeader('X-Public', public_key);
+	request.setRequestHeader('X-Microtime', timestamp);
+}
+var getAllOrders = function(order_id) {
+	$j.ajax({
+		type: "GET",
+		url:"https://www.e-satisfaction.gr/api/v2/prestashop/customer_page_details/<?php echo $site_id; ?>",
+		contentType: "application/json; charset=utf-8",
+		dataType: "json",
+		data:{'order_id':order_id},
+		beforeSend: function (request) {
+			buildAuth(request,this.type);
+		},
+		success: function (data) {
+			console.log(data);
+			var newData = [];
+					
+			for(var i=0; i < data.length; i++){
+				kyz = Object.keys(data[i]);
+				val = Object.values(data[i])
+				for(var j=0; j < kyz.length; j++){
+					newData[kyz[j]] = val[j];
+				}
+			}
+			
+			if(newData['cstmr_pg_esat_custom_icon']){
+				if(newData['cstmr_pg_esat_custom_icon'] != '-'){
+					$j('#esatisfaction-smiley-order-'+order_id+'-img').attr('src',newData['cstmr_pg_esat_custom_icon']);
+				}
+			}
+			
+			if(newData['cstmer_pg_generalsatisf']){
+				$j('#esatisfaction-gensatisfaction-order-'+order_id).text(newData['cstmer_pg_generalsatisf']);
+			}else{
+				$j('#esatisfaction-gensatisfaction-order-'+order_id).text('-');
+			}
+			
+			if(newData['cstmer_pg_scheduled']){
+				$j('#esatisfaction-schedule-order-'+order_id).text(newData['cstmer_pg_scheduled']);
+			}else{
+				$j('#esatisfaction-schedule-order-'+order_id).text('-');
+			}
+			
+			if(newData['cstmer_pg_nps']){
+				$j('#esatisfaction-nps-order-'+order_id).text(newData['cstmer_pg_nps']);
+			}else{
+				$j('#esatisfaction-nps-order-'+order_id).text('-');
+			}
+			
+			if(newData['cstmer_pg_comment']){
+				$j('#esatisfaction-comment-order-'+order_id).text(newData['cstmer_pg_comment']);
+			}else{
+				$j('#esatisfaction-comment-order-'+order_id).text('-');
+			}
+			
+			//alert(JSON.stringify(data));
+		},
+		error: function (errorMessage) {
+			if(errorMessage.status == 401) alert('Access denied');
+		}
+	});
+};
+
+/*/
+$j(document).ready(function(){
+	$j('div[id^="esatisfaction-smiley-order-"]').each(function(){
+		var id = $j(this).attr('id');
+		var order_id = id.replace("esatisfaction-smiley-order-", "");
+		order_id = (1 * order_id );
+		
+		getAllOrders(<?php echo $site_id; ?>,order_id);
+	});
+});
+//*/
+</script>

@@ -1,0 +1,9 @@
+<?php if ($this->canRender()): ?>
+	<?php $order_id = $this->getOrder()->getId(); ?>
+    <div class="esatisfaction-schedule-order-container" id="esatisfaction-schedule-order-<?php echo $order_id; ?>">
+	</div>
+<?php endif; ?>
+
+<script type="text/javascript">
+getAllOrders(<?php echo $order_id; ?>);
+</script>

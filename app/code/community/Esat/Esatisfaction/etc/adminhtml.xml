@@ -1,0 +1,21 @@
+<config>
+    <menu>
+        <esatisfaction translate="title" module="esatisfaction">
+            <title>e-satisfaction</title>
+            <sort_order>99</sort_order>
+            <children>
+                <esatisfaction_system_settings>
+                    <title>Settings</title>
+                    <sort_order>1</sort_order>
+                    <action>adminhtml/system_config/edit/section/esatisfaction</action>
+                </esatisfaction_system_settings>
+                <esatisfaction_customquestions>
+                    <title>Custom Questions</title>
+                    <sort_order>2</sort_order>
+					<depends><config>esatisfaction/section_one/esatisfaction_custom_questions</config></depends>
+                    <action>adminhtml/esatisfaction_customquestions/index</action>
+                </esatisfaction_customquestions>
+            </children>
+        </esatisfaction>
+    </menu>    
+</config> 
