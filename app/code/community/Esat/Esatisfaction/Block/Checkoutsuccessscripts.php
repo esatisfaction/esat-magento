@@ -36,6 +36,14 @@ class Esat_Esatisfaction_Block_Checkoutsuccessscripts
         return $orderId;
     }
 	
+    public function getIncrementId()
+    {
+		$order = Mage::getModel('sales/order');
+		$order->load(Mage::getSingleton('checkout/session')->getLastOrderId());
+		$increment_id =  $order->getIncrementId();
+        return $increment_id;
+    }
+	
 	public function getCustomerEmail(){
 		$orderId = Mage::getSingleton('checkout/session')->getLastOrderId();
         $order = Mage::getModel('sales/order')->load($orderId);

@@ -19,6 +19,7 @@ var setHeaders = function(request, public_key, timestamp, hashInBase64){
 	request.setRequestHeader('X-Microtime', timestamp);
 }
 var getAllOrders = function(order_id) {
+	console.log(order_id);
 	$j.ajax({
 		type: "GET",
 		url:"https://www.e-satisfaction.gr/api/v2/prestashop/customer_page_details/<?php echo $site_id; ?>",
@@ -70,7 +71,6 @@ var getAllOrders = function(order_id) {
 				$j('#esatisfaction-comment-order-'+order_id).text('-');
 			}
 			
-			//alert(JSON.stringify(data));
 		},
 		error: function (errorMessage) {
 			if(errorMessage.status == 401) alert('Access denied');
@@ -78,15 +78,4 @@ var getAllOrders = function(order_id) {
 	});
 };
 
-/*/
-$j(document).ready(function(){
-	$j('div[id^="esatisfaction-smiley-order-"]').each(function(){
-		var id = $j(this).attr('id');
-		var order_id = id.replace("esatisfaction-smiley-order-", "");
-		order_id = (1 * order_id );
-		
-		getAllOrders(<?php echo $site_id; ?>,order_id);
-	});
-});
-//*/
 </script>

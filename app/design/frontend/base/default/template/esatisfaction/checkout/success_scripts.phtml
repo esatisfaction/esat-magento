@@ -1,11 +1,11 @@
 <script type="text/javascript">
 $$(".page-title").first().insert({ after: '<div id="checkout-questionnaire"></div>' });
-<?php $order_id = $this->getOrderId(); ?>
+<?php $increment_id = $this->getIncrementId(); ?>
 <?php $token = $this->getToken(); ?>
 <?php $email = $this->getCustomerEmail(); ?>
 
 var _esatisf = _esatisf || []; 
-_esatisf.push(['_responder', '<?php echo $order_id; ?>']);
+_esatisf.push(['_responder', '<?php echo $increment_id; ?>']);
 _esatisf.push(['_token', '<?php echo $token; ?>']); 
 _esatisf.push(['_email', '<?php echo $email; ?>']);
 _esatisf.push(['_showQuestionnaire', '#checkout-questionnaire']); 

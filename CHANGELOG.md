@@ -13,3 +13,7 @@ XXX is the change hash
   * [fix] Fix usage of jQuery
 * 1.0.4
   * [fix] Re-fix usage of jQuery
+* 1.0.5
+  * [cc] Code style updates/fixes
+  * [fix] Generic fixes in versions and scripts
+  * [alerts] Suppress all alert() to console()

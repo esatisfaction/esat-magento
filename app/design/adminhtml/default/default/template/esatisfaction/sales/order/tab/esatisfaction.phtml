@@ -565,7 +565,7 @@ new Varien.Tabs('.e-satisfaction-tabs');
 								}
 								
 								
-								//alert(JSON.stringify(data));
+								console.log(JSON.stringify(data));
 							},
 							error: function (errorMessage) {
 								if(errorMessage.status == 401) alert('Access denied');
@@ -584,7 +584,7 @@ new Varien.Tabs('.e-satisfaction-tabs');
 		});
 	};
 	var site_id = <?php echo $site_id; ?>;
-	var order_id = <?php echo $_order->getId(); ?>;
+	var order_id = <?php echo $_order->getIncrementId(); ?>;
 	
 	getOrder(site_id, order_id);
 	
@@ -595,7 +595,7 @@ new Varien.Tabs('.e-satisfaction-tabs');
 		var request_data = {
 			'email_to' 		: '<?php echo $this->escapeHtml($_order->getCustomerEmail()) ?>',
 			'customer_name' : '<?php echo $this->escapeHtml($_order->getCustomerName()) ?>',
-			'order_id'   	: '<?php echo $_order->getId(); ?>',
+			'order_id'   	: '<?php echo $_order->getIncrementId(); ?>',
 			'stage'   		: 'Checkout',
 			'comment'   	: $j('#ordr_pg_comments_text').text(),
 			'answer'   		: $j('#esatisfaction_checkout_comment_answer').val()
@@ -628,7 +628,7 @@ new Varien.Tabs('.e-satisfaction-tabs');
 		var request_data = {
 			'email_to' 		: '<?php echo $this->escapeHtml($_order->getCustomerEmail()) ?>',
 			'customer_name' : '<?php echo $this->escapeHtml($_order->getCustomerName()) ?>',
-			'order_id'   	: '<?php echo $_order->getId(); ?>',
+			'order_id'   	: '<?php echo $_order->getIncrementId(); ?>',
 			'stage'   		: 'After sales',
 			'comment'   	: $j('#ordr_pg_after_sales_comments_text').text(),
 			'answer'   		: $j('#esatisfaction_after_sales_comment_answer').val()
