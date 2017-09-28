@@ -19,3 +19,5 @@ XXX is the change hash
   * [alerts] Suppress all alert() to console()
 * 1.0.6 (2016-07-21)
   * [fix] Save data only when necessary 
+* 1.0.7 (2017-07-13)
+  * [fix] Change url protocol to https 

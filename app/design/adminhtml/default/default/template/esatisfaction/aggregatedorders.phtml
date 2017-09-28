@@ -22,7 +22,7 @@ var setHeaders = function(request, public_key, timestamp, hashInBase64){
 var getAllOrders = function(orders) {
 	$j.ajax({
 		type: "GET",
-		url:"http://www.e-satisfaction.gr/api/v2/prestashop/aggregated_order_page_json/<?php echo $site_id; ?>?json_data="+orders,
+		url:"https://www.e-satisfaction.gr/api/v2/prestashop/aggregated_order_page_json/<?php echo $site_id; ?>?json_data="+orders,
 		contentType: "application/json; charset=utf-8",
 		dataType: "json",
 		beforeSend: function (request) {
