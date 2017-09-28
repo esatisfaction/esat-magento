@@ -1,5 +1,5 @@
 <?php if ($this->canRender()): ?>
-	<?php $order_id = $this->getOrder()->getId(); ?>
+	<?php $order_id = $this->getOrder()->getIncrementId(); ?>
     <div class="esatisfaction-comment-order-container" id="esatisfaction-comment-order-<?php echo $order_id; ?>">
 	</div>
 <?php endif; ?>

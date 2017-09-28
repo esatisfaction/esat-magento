@@ -1,4 +1,5 @@
 <script type="text/javascript">
+
 <?php $site_id 		= Mage::getStoreConfig('esatisfaction/section_one/esatisfaction_site_id'); ?> 
 <?php $public_key 	= Mage::getStoreConfig('esatisfaction/section_one/esatisfaction_site_public_key'); ?> 
 <?php $private_key 	= Mage::getStoreConfig('esatisfaction/section_one/esatisfaction_site_private_key'); ?> 
@@ -18,39 +19,101 @@ var setHeaders = function(request, public_key, timestamp, hashInBase64){
 	request.setRequestHeader('X-Microtime', timestamp);
 }
 
-
-var getAggregatedOrders = function(order_id) {
+var getAllOrders = function(orders) {
 	$j.ajax({
 		type: "GET",
-		url:"https://www.e-satisfaction.gr/api/v2/prestashop/aggregated_order_page/<?php echo $site_id; ?>",
+		url:"https://www.e-satisfaction.gr/api/v2/prestashop/aggregated_order_page_json/<?php echo $site_id; ?>?json_data="+orders,
 		contentType: "application/json; charset=utf-8",
 		dataType: "json",
-		data:{'order_id':order_id},
 		beforeSend: function (request) {
 			buildAuth(request,this.type);
 		},
 		success: function (data) {			
-			var imageFound = 0;
 			if(data){
-				if(!data['error']){
-					if(data['ordrlist_pg_imgurl']){
-						if(data['ordrlist_pg_imgurl'] != '-'){
-							$j('#esatisfaction-smiley-order-'+order_id+'-img').attr('src',data['ordrlist_pg_imgurl']);
-							imageFound = 1;
+				var data_lentgh = data.length;
+				for (var i = 0; i < data_lentgh; i++) {
+					console.log(data[i])
+					var order_id 	= data[i]['order_id'];
+					if(!data[i]['error']){
+						var need_update = data[i]['need_update'];
+						var img_url 	= data[i]['ordrlist_pg_imgurl'];
+						$j('#esatisfaction-smiley-order-'+order_id+'-img').attr('src',img_url);
+						if(need_update == 0){							
+							saveIcon(order_id,img_url);
 						}
+					}else{
+						$j('#esatisfaction-smiley-order-'+order_id).html('-');
 					}
 				}
 			}
-			if(imageFound == 0){
-				$j('#esatisfaction-smiley-order-'+order_id).html('-');
-			}
 			
-			
-			//alert(JSON.stringify(data));
 		},
 		error: function (errorMessage) {
 			if(errorMessage.status == 401) alert('Access denied');
 		}
 	});
 };
+
+var orders = '{"order":[';
+var add_comma = 0;
+var number_of_passed_rows = 1;
+var send = 1;
+
+
+var getOrdersShown = function(order_id,get_icon) {
+	
+	var limit 	= $j('select[name="limit"]').val() * 1;
+	var page 	= ($j('input[name="page"]').val() * 1) - 1;
+	var total 	= $j('#sales_order_grid-total-count').html() * 1;
+	var number_of_rows = 0;
+	if(page > 0){
+		total = total - (page * limit);
+	}
+	if(limit < total){
+		number_of_rows = limit;
+	}else{
+		number_of_rows = total;		
+	}
+
+	if(get_icon){
+		if(add_comma){
+			orders += ',';
+		}else{
+			orders = '{"order":[';
+			add_comma = 1;
+		}
+		orders += '{"id":"'+order_id+'"}';
+	}
+	if(number_of_passed_rows == number_of_rows){
+		number_of_passed_rows = 1;
+		send = 1;		
+		add_comma = 0;
+		orders+=']}';
+		var encodedData = encodeURIComponent(orders);
+		getAllOrders(encodedData);
+	}else if(send == 100){
+		send = 1;
+		add_comma = 0;
+		orders+=']}';
+		var encodedData = encodeURIComponent(orders);
+		getAllOrders(encodedData);
+		number_of_passed_rows++;
+	}else{
+		send++;
+		number_of_passed_rows++;
+	}
+}
+
 </script>
+<script type="text/javascript">//<![CDATA[
+	function saveIcon(order_id,icon_url){
+		var request_data = {
+			'order_id' 		: order_id,
+			'icon_url' 		: icon_url
+		};
+		new Ajax.Request("<?php echo   $this->getUrl('adminhtml/esatisfaction_saveicon') ?>", {
+           method: 'Post',
+           parameters: request_data
+       });
+	}
+//]]></script>

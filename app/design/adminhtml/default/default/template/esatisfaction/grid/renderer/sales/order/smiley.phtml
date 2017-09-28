@@ -1,10 +1,15 @@
 <?php if ($this->canRender()): ?>
 	<?php $order_id = $this->getOrder()->getId(); ?>
-    <div class="smile-container" id="esatisfaction-smiley-order-<?php echo $order_id; ?>">
-		<img src="" id="esatisfaction-smiley-order-<?php echo $order_id; ?>-img" />
+	<?php $increment_id = $this->getOrder()->getIncrementId(); ?>
+	<?php $esat_icon =  Mage::getModel('sales/order')->load($order_id)->getEsatIcon(); ?>
+    <div class="smile-container" id="esatisfaction-smiley-order-<?php echo $increment_id; ?>">
+		<img src="<?php echo $esat_icon; ?>" id="esatisfaction-smiley-order-<?php echo $increment_id; ?>-img" />
 	</div>
+	<script type="text/javascript">
+	<?php if(!$esat_icon){ ?>
+		getOrdersShown(<?php echo $increment_id; ?>,1);
+	<?php } else { ?>
+		getOrdersShown(<?php echo $increment_id; ?>,0);
+	<?php } ?>
+	</script>
 <?php endif; ?>
-
-<script type="text/javascript">
-getAggregatedOrders(<?php echo $order_id; ?>);
-</script>

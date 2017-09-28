@@ -1,13 +1,13 @@
-﻿	<div class="content-header">
-		<table cellspacing="0">
-			<tbody>
-				<tr>
-					<td style="width:50%;"><h3 class="icon-head head-products"><?php echo $this->__('Custom Questions'); ?></h3></td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-	<div>
+﻿<div class="content-header">
+	<table cellspacing="0">
+		<tbody>
+			<tr>
+				<td style="width:50%;"><h3 class="icon-head head-products"><?php echo $this->__('Custom Questions'); ?></h3></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<div>
 <?php if($this->isCustomQuestionsEnabled()){ ?>
 	<?php $site_id = Mage::getStoreConfig('esatisfaction/section_one/esatisfaction_site_id'); ?> 
 	<div id="customQuestionsGrid">
@@ -119,4 +119,4 @@
 		
 	</div>
 <?php } ?>
-	</div>
+</div>
