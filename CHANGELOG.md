@@ -11,3 +11,5 @@ XXX is the change hash
   * [fix] Update translations csv format
 * 1.0.3
   * [fix] Fix usage of jQuery
+* 1.0.4
+  * [fix] Re-fix usage of jQuery

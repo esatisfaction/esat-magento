@@ -1,6 +1,5 @@
 <script type="text/javascript">
-jQuery('.page-title').after('<div id="checkout-questionnaire"></div>');
-
+$$(".page-title").first().insert({ after: '<div id="checkout-questionnaire"></div>' });
 <?php $order_id = $this->getOrderId(); ?>
 <?php $token = $this->getToken(); ?>
 <?php $email = $this->getCustomerEmail(); ?>
