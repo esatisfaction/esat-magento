@@ -38,7 +38,9 @@ var getAllOrders = function(orders) {
 						var need_update = data[i]['need_update'];
 						var img_url 	= data[i]['ordrlist_pg_imgurl'];
 						$j('#esatisfaction-smiley-order-'+order_id+'-img').attr('src',img_url);
-						saveIcon(order_id,img_url);
+						if(need_update == 0){							
+							saveIcon(order_id,img_url);
+						}
 					}else{
 						$j('#esatisfaction-smiley-order-'+order_id).html('-');
 					}
