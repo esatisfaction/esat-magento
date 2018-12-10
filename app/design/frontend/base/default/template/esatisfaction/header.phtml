@@ -3,7 +3,8 @@ $esat_helper = Mage::helper('esatisfaction/data');
 $application_id = $esat_helper->getApplicationId();
 ?>
 <script>
-	window.esat_config = {
+	window.esat_config = 
+	{
 		application_id: '<?php echo $application_id; ?>'
 	};
 </script>
