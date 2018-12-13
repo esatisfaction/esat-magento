@@ -1,0 +1,21 @@
+<?php 
+$esat_helper = Mage::helper('esatisfaction/data');
+$jquery_installed = $esat_helper->getIsJQueryEnabled();
+
+
+if($jquery_installed)
+{
+	/*
+	 * Integration loaded with jquery installed
+	 */
+	$esatisfaction_script = 'https://collection.e-satisfaction.com/dist/js/integration.jq.min.js';
+}
+else
+{
+	/*
+	 * Integration loaded without jquery installed
+	 */
+	$esatisfaction_script = 'https://collection.e-satisfaction.com/dist/js/integration.min.js';
+}
+?>
+<script src="<?php echo $esatisfaction_script; ?>" ></script>
