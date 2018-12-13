@@ -9,10 +9,103 @@
     <summary>An extension in order to add e-satisfaction functionality in your magento installation.</summary>
     <description>This extension allows you to use the e-satisfaction service. The e-satisfaction service is used by aspiring e-commerce sites in order to get feedback about the level of satisfaction their customers get when they browse and/or purhase items.</description>
     <notes>Added the new e-satisfaction api</notes>
-    <authors><author><name>e-satisfaction</name><user>e-satisfaction</user><email>info@e-satisfaction.com</email></author></authors>
+    <authors>
+        <author>
+            <name>e-satisfaction</name>
+            <user>e-satisfaction</user>
+            <email>info@e-satisfaction.com</email>
+        </author>
+    </authors>
     <date>2018-12-10</date>
     <time>18:05:22</time>
-    <contents><target name="magecommunity"><dir name="Esat"><dir name="Esatisfaction"><dir name="Block"><dir name="Checkout"><file name="Success.php" hash="d704cf55f38bb8591eb58332f3287dca"/></dir></dir><dir name="Helper"><file name="Data.php" hash="75235ae9eeaaf9864d2942a3c118a058"/></dir><dir name="Model"><file name="Item.php" hash="4a1d434ad3c27532e242e78f099ca7a1"/><file name="Observer.php" hash="5ba5baf3737c5ff0d1c7c86f40e06c17"/><dir name="Resource"><dir name="Item"><file name="Collection.php" hash="2b184458dcb958abe33b7b371e7a6129"/></dir><file name="Item.php" hash="c69a7deab2d7aa55a5be97c3196f8bfb"/></dir><dir name="System"><dir name="Config"><dir name="Source"><dir name="Delivery"><file name="Pipeline.php" hash="27f1b75f6fd9c76b3034f1fbc8ac29f1"/></dir><dir name="Order"><file name="Status.php" hash="8a3db5c7813c72dd7b891f0a5e18afab"/></dir><dir name="Pickup"><file name="Pipeline.php" hash="e06bb1665e3a5d3e5155b511a799990b"/></dir><file name="Questionnaire.php" hash="de1b101900d911186ef213008625cf59"/><file name="Shipping.php" hash="8b0631854a4545eb62ec05929146aeea"/></dir></dir></dir></dir><dir name="etc"><file name="adminhtml.xml" hash="61a5090008c0a15a4dac31a60b6928de"/><file name="config.xml" hash="ff681b8a2d245a22a208f4ad24537692"/><file name="system.xml" hash="c7dadd7fdaaf87683834993610f03fd5"/></dir><dir name="sql"><dir name="esat_esatisfaction_setup"><file name="mysql4-install-2.0.0.php" hash="31b7d505a448bf56db174c9fe1aedb53"/></dir></dir></dir></dir></target><target name="magedesign"><dir name="frontend"><dir name="base"><dir name="default"><dir name="layout"><file name="esatisfaction.xml" hash="5676465258c47d451fcf1135c7c990c4"/></dir><dir name="template"><dir name="esatisfaction"><file name="before_body_end.phtml" hash="8f898e6dc3dbb5953d5473fbdf593768"/><file name="checkout_success.phtml" hash="54a4d68f12c8c4e481b5f6f9ea9d792d"/><file name="header.phtml" hash="4b046c7796a4cf8726ee4508fdeb91af"/></dir></dir></dir></dir></dir></target><target name="magelocale"><dir name="el_GR"><file name="Esat_Esatisfaction.csv" hash="900684a0eaa46cb057f103ffa1339088"/></dir></target><target name="mageetc"><dir name="modules"><file name="Esat_Esatisfaction.xml" hash="e43adee2f2318b3483f01c80b045b012"/></dir></target></contents>
+    <contents>
+        <target name="magecommunity">
+            <dir name="Esat">
+                <dir name="Esatisfaction">
+                    <dir name="Block">
+                        <dir name="Checkout">
+                            <file name="Success.php" hash="d704cf55f38bb8591eb58332f3287dca"/>
+                        </dir>
+                    </dir>
+                    <dir name="Helper">
+                        <file name="Data.php" hash="75235ae9eeaaf9864d2942a3c118a058"/>
+                    </dir>
+                    <dir name="Model">
+                        <file name="Item.php" hash="4a1d434ad3c27532e242e78f099ca7a1"/>
+                        <file name="Observer.php" hash="5ba5baf3737c5ff0d1c7c86f40e06c17"/>
+                        <dir name="Resource">
+                            <dir name="Item">
+                                <file name="Collection.php" hash="2b184458dcb958abe33b7b371e7a6129"/>
+                            </dir>
+                            <file name="Item.php" hash="c69a7deab2d7aa55a5be97c3196f8bfb"/>
+                        </dir>
+                        <dir name="System">
+                            <dir name="Config">
+                                <dir name="Source">
+                                    <dir name="Delivery">
+                                        <file name="Pipeline.php" hash="27f1b75f6fd9c76b3034f1fbc8ac29f1"/>
+                                    </dir>
+                                    <dir name="Order">
+                                        <file name="Status.php" hash="8a3db5c7813c72dd7b891f0a5e18afab"/>
+                                    </dir>
+                                    <dir name="Pickup">
+                                        <file name="Pipeline.php" hash="e06bb1665e3a5d3e5155b511a799990b"/>
+                                    </dir>
+                                    <file name="Questionnaire.php" hash="de1b101900d911186ef213008625cf59"/>
+                                    <file name="Shipping.php" hash="8b0631854a4545eb62ec05929146aeea"/>
+                                </dir>
+                            </dir>
+                        </dir>
+                    </dir>
+                    <dir name="etc">
+                        <file name="adminhtml.xml" hash="61a5090008c0a15a4dac31a60b6928de"/>
+                        <file name="config.xml" hash="ff681b8a2d245a22a208f4ad24537692"/>
+                        <file name="system.xml" hash="c7dadd7fdaaf87683834993610f03fd5"/>
+                    </dir>
+                    <dir name="sql">
+                        <dir name="esat_esatisfaction_setup">
+                            <file name="mysql4-install-2.0.0.php" hash="31b7d505a448bf56db174c9fe1aedb53"/>
+                        </dir>
+                    </dir>
+                </dir>
+            </dir>
+        </target>
+        <target name="magedesign">
+            <dir name="frontend">
+                <dir name="base">
+                    <dir name="default">
+                        <dir name="layout">
+                            <file name="esatisfaction.xml" hash="5676465258c47d451fcf1135c7c990c4"/>
+                        </dir>
+                        <dir name="template">
+                            <dir name="esatisfaction">
+                                <file name="before_body_end.phtml" hash="8f898e6dc3dbb5953d5473fbdf593768"/>
+                                <file name="checkout_success.phtml" hash="54a4d68f12c8c4e481b5f6f9ea9d792d"/>
+                                <file name="header.phtml" hash="4b046c7796a4cf8726ee4508fdeb91af"/>
+                            </dir>
+                        </dir>
+                    </dir>
+                </dir>
+            </dir>
+        </target>
+        <target name="magelocale">
+            <dir name="el_GR">
+                <file name="Esat_Esatisfaction.csv" hash="900684a0eaa46cb057f103ffa1339088"/>
+            </dir>
+        </target>
+        <target name="mageetc">
+            <dir name="modules">
+                <file name="Esat_Esatisfaction.xml" hash="e43adee2f2318b3483f01c80b045b012"/>
+            </dir>
+        </target>
+    </contents>
     <compatible/>
-    <dependencies><required><php><min>5.3.0</min><max>7.0.1</max></php></required></dependencies>
+    <dependencies>
+        <required>
+            <php>
+                <min>5.3.0</min>
+                <max>7.0.1</max>
+            </php>
+        </required>
+    </dependencies>
 </package>

@@ -1,237 +1,236 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
-	<tabs>
+    <tabs>
         <esatisfaction>
             <label>e-satisfaction</label>
             <sort_order>100</sort_order>
         </esatisfaction>
     </tabs>
-	
-    <sections>           
-		<esatisfaction module="esatisfaction" translate="label,comment">
+    <sections>
+        <esatisfaction module="esatisfaction" translate="label,comment">
             <label>e-satisfaction Settings</label>
             <tab>esatisfaction</tab>
             <frontend_type>text</frontend_type>
             <sort_order>10</sort_order>
             <show_in_default>1</show_in_default>
-			<groups>
-				<application>
-					<label>Application</label>
-					<frontend_type>text</frontend_type>
-					<sort_order>10</sort_order>
-					<show_in_default>1</show_in_default>
-					<fields>
+            <groups>
+                <application>
+                    <label>Application</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <fields>
                         <application_id>
                             <label>Application</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
-							<comment>You must input an Application ID before you can use the extension</comment>
+                            <comment>You must input an Application ID before you can use the extension</comment>
                         </application_id>
-						<auto>
+                        <auto>
                             <label>Automatic Questionnaires</label>
-							<frontend_type>select</frontend_type>
-							<source_model>adminhtml/system_config_source_yesno</source_model>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
-							<comment>e-satisfaction platform sends automatic questionnaire. If you want to send them manually from the order status changes you must first change the settings in the e-Satisfaction platform.</comment>
+                            <comment>e-satisfaction platform sends automatic questionnaire. If you want to send them manually from the order status changes you must first change the settings in the e-Satisfaction platform.</comment>
                         </auto>
-					</fields>
-				</application>
-				<authentication>
-					<label>API Authentication Token</label>
-					<frontend_type>text</frontend_type>
-					<sort_order>20</sort_order>
-					<show_in_default>1</show_in_default>
-					<fields>
-						<token>
-							<label>Token</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>10</sort_order>
-							<show_in_default>1</show_in_default>
-							<comment>You must input an Authentication Token before you can use the extension</comment>
-						</token>
-					</fields>
-				</authentication>
-				<checkout translate="label,comment">
-					<label>Checkout Questionnaire</label>
-					<frontend_type>text</frontend_type>
-					<sort_order>30</sort_order>
-					<show_in_default>1</show_in_default>
-					<fields>
-						<questionnaire_id>
-							<label>Questionnaire</label>
-							<comment>On your e-satisfaction.com questionnaire integration settings, set the integration type to embedded and the position to #esat-checkout-questionnaire-container</comment>
-							<frontend_type>select</frontend_type>
-							<source_model>esatisfaction/system_config_source_questionnaire</source_model>
-							<sort_order>10</sort_order>
-							<show_in_default>1</show_in_default>
-						</questionnaire_id>
-					</fields>					
-				</checkout>
-				<delivery translate="label,comment">
-					<label>After Delivery Questionnaire</label>
-					<frontend_type>text</frontend_type>
-					<sort_order>40</sort_order>
-					<show_in_default>1</show_in_default>
-					<fields>
-						<questionnaire_id>
-							<label>Questionnaire</label>
-							<frontend_type>select</frontend_type>
-							<source_model>esatisfaction/system_config_source_questionnaire</source_model>
-							<sort_order>10</sort_order>
-							<show_in_default>1</show_in_default>
-							<depends>
-								<auto>
-									<fieldset>application</fieldset>
-									<value>0</value>
-								</auto>
-							</depends>
-						</questionnaire_id>
-						<pipeline_id> 
-							<label>Pipeline</label>
-							<frontend_type>select</frontend_type>
-							<source_model>esatisfaction/system_config_source_delivery_pipeline</source_model>
-							<sort_order>20</sort_order>
-							<show_in_default>1</show_in_default>
-							<depends>
-								<auto>
-									<fieldset>application</fieldset>
-									<value>0</value>
-								</auto>
-							</depends>
-						</pipeline_id>
-						<days_after>
-							<label>Days after to send questionnaire</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>30</sort_order>
-							<show_in_default>1</show_in_default>
-							<depends>
-								<auto>
-									<fieldset>application</fieldset>
-									<value>0</value>
-								</auto>
-							</depends>
-						</days_after>
-						<send_questionnaire>
-							<label>Order status(es) to send questionnaire</label>
-							<frontend_type>multiselect</frontend_type>
-							<source_model>esatisfaction/system_config_source_order_status</source_model>
-							<sort_order>40</sort_order>
-							<show_in_default>1</show_in_default>
-							<depends>
-								<auto>
-									<fieldset>application</fieldset>
-									<value>0</value>
-								</auto>
-							</depends>
-						</send_questionnaire>
-						<after_delivery>
-							<label>Condition to determine when it’s after delivery</label>
-							<frontend_type>multiselect</frontend_type>
-							<source_model>esatisfaction/system_config_source_shipping</source_model>
-							<sort_order>50</sort_order>
-							<show_in_default>1</show_in_default>
-						</after_delivery>
-						<cancel_questionnaire>
-							<label>Order status(es) to cancel questionnaire</label>
-							<frontend_type>multiselect</frontend_type>
-							<source_model>esatisfaction/system_config_source_order_status</source_model>
-							<sort_order>60</sort_order>
-							<show_in_default>1</show_in_default>
-							<depends>
-								<auto>
-									<fieldset>application</fieldset>
-									<value>0</value>
-								</auto>
-							</depends>
-						</cancel_questionnaire>
-					</fields>
-				</delivery>
-				<pickup translate="label,comment">
-					<label>Store Pick Up Questionnaire</label>
-					<frontend_type>text</frontend_type>
-					<sort_order>50</sort_order>
-					<show_in_default>1</show_in_default>
-					<fields>
-						<questionnaire_id>
-							<label>Questionnaire</label>
-							<frontend_type>select</frontend_type>
-							<source_model>esatisfaction/system_config_source_questionnaire</source_model>
-							<sort_order>10</sort_order>
-							<show_in_default>1</show_in_default>
-							<depends>
-								<auto>
-									<fieldset>application</fieldset>
-									<value>0</value>
-								</auto>
-							</depends>
-						</questionnaire_id>
-						<pipeline_id>
-							<label>Pipeline</label>
-							<frontend_type>select</frontend_type>
-							<source_model>esatisfaction/system_config_source_pickup_pipeline</source_model>
-							<sort_order>20</sort_order>
-							<show_in_default>1</show_in_default>
-							<depends>
-								<auto>
-									<fieldset>application</fieldset>
-									<value>0</value>
-								</auto>
-							</depends>
-						</pipeline_id>
-						<send_questionnaire>
-							<label>Order status(es) to send questionnaire</label>
-							<frontend_type>multiselect</frontend_type>
-							<source_model>esatisfaction/system_config_source_order_status</source_model>
-							<sort_order>40</sort_order>
-							<show_in_default>1</show_in_default>
-							<depends>
-								<auto>
-									<fieldset>application</fieldset>
-									<value>0</value>
-								</auto>
-							</depends>
-						</send_questionnaire>
-						<store_pickup>
-							<label>Condition to determine when it’s store pickup</label>
-							<frontend_type>multiselect</frontend_type>
-							<source_model>esatisfaction/system_config_source_shipping</source_model>
-							<sort_order>50</sort_order>
-							<show_in_default>1</show_in_default>
-						</store_pickup>
-						<cancel_questionnaire>
-							<label>Order status(es) to cancel questionnaire</label>
-							<frontend_type>multiselect</frontend_type>
-							<source_model>esatisfaction/system_config_source_order_status</source_model>
-							<sort_order>60</sort_order>
-							<show_in_default>1</show_in_default>
-							<depends>
-								<auto>
-									<fieldset>application</fieldset>
-									<value>0</value>
-								</auto>
-							</depends>
-						</cancel_questionnaire>
-					</fields>
-				</pickup>
-				<setup translate="label">
-					<label>Template Settings</label>
-					<frontend_type>text</frontend_type>
-					<sort_order>60</sort_order>
-					<show_in_default>1</show_in_default>
-					<fields>
+                    </fields>
+                </application>
+                <authentication>
+                    <label>API Authentication Token</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>20</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <fields>
+                        <token>
+                            <label>Token</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <comment>You must input an Authentication Token before you can use the extension</comment>
+                        </token>
+                    </fields>
+                </authentication>
+                <checkout translate="label,comment">
+                    <label>Checkout Questionnaire</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>30</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <fields>
+                        <questionnaire_id>
+                            <label>Questionnaire</label>
+                            <comment>On your e-satisfaction.com questionnaire integration settings, set the integration type to embedded and the position to #esat-checkout-questionnaire-container</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>esatisfaction/system_config_source_questionnaire</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                        </questionnaire_id>
+                    </fields>
+                </checkout>
+                <delivery translate="label,comment">
+                    <label>After Delivery Questionnaire</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>40</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <fields>
+                        <questionnaire_id>
+                            <label>Questionnaire</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>esatisfaction/system_config_source_questionnaire</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <depends>
+                                <auto>
+                                    <fieldset>application</fieldset>
+                                    <value>0</value>
+                                </auto>
+                            </depends>
+                        </questionnaire_id>
+                        <pipeline_id>
+                            <label>Pipeline</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>esatisfaction/system_config_source_delivery_pipeline</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <depends>
+                                <auto>
+                                    <fieldset>application</fieldset>
+                                    <value>0</value>
+                                </auto>
+                            </depends>
+                        </pipeline_id>
+                        <days_after>
+                            <label>Days after to send questionnaire</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <depends>
+                                <auto>
+                                    <fieldset>application</fieldset>
+                                    <value>0</value>
+                                </auto>
+                            </depends>
+                        </days_after>
+                        <send_questionnaire>
+                            <label>Order status(es) to send questionnaire</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>esatisfaction/system_config_source_order_status</source_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <depends>
+                                <auto>
+                                    <fieldset>application</fieldset>
+                                    <value>0</value>
+                                </auto>
+                            </depends>
+                        </send_questionnaire>
+                        <after_delivery>
+                            <label>Condition to determine when it’s after delivery</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>esatisfaction/system_config_source_shipping</source_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                        </after_delivery>
+                        <cancel_questionnaire>
+                            <label>Order status(es) to cancel questionnaire</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>esatisfaction/system_config_source_order_status</source_model>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <depends>
+                                <auto>
+                                    <fieldset>application</fieldset>
+                                    <value>0</value>
+                                </auto>
+                            </depends>
+                        </cancel_questionnaire>
+                    </fields>
+                </delivery>
+                <pickup translate="label,comment">
+                    <label>Store Pick Up Questionnaire</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>50</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <fields>
+                        <questionnaire_id>
+                            <label>Questionnaire</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>esatisfaction/system_config_source_questionnaire</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <depends>
+                                <auto>
+                                    <fieldset>application</fieldset>
+                                    <value>0</value>
+                                </auto>
+                            </depends>
+                        </questionnaire_id>
+                        <pipeline_id>
+                            <label>Pipeline</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>esatisfaction/system_config_source_pickup_pipeline</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <depends>
+                                <auto>
+                                    <fieldset>application</fieldset>
+                                    <value>0</value>
+                                </auto>
+                            </depends>
+                        </pipeline_id>
+                        <send_questionnaire>
+                            <label>Order status(es) to send questionnaire</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>esatisfaction/system_config_source_order_status</source_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <depends>
+                                <auto>
+                                    <fieldset>application</fieldset>
+                                    <value>0</value>
+                                </auto>
+                            </depends>
+                        </send_questionnaire>
+                        <store_pickup>
+                            <label>Condition to determine when it’s store pickup</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>esatisfaction/system_config_source_shipping</source_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                        </store_pickup>
+                        <cancel_questionnaire>
+                            <label>Order status(es) to cancel questionnaire</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>esatisfaction/system_config_source_order_status</source_model>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <depends>
+                                <auto>
+                                    <fieldset>application</fieldset>
+                                    <value>0</value>
+                                </auto>
+                            </depends>
+                        </cancel_questionnaire>
+                    </fields>
+                </pickup>
+                <setup translate="label">
+                    <label>Template Settings</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>60</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <fields>
                         <jquery_installed>
                             <label>jQuery Installed?</label>
-							<comment>Select yes if jquery is installed in your magento theme installation</comment>
-							<frontend_type>select</frontend_type>
-							<source_model>adminhtml/system_config_source_yesno</source_model>
+                            <comment>Select yes if jquery is installed in your magento theme installation</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                         </jquery_installed>
-					</fields>
-				</setup>
-			</groups>						
-		</esatisfaction>			
+                    </fields>
+                </setup>
+            </groups>
+        </esatisfaction>
     </sections>
 </config>
