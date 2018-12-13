@@ -25,30 +25,30 @@
                 <class>Esat_Esatisfaction_Helper</class>
             </esatisfaction>
         </helpers>
-		<models>
+        <models>
             <esatisfaction>
                 <class>Esat_Esatisfaction_Model</class>
-				<resourceModel>esatisfaction_resource</resourceModel>
+                <resourceModel>esatisfaction_resource</resourceModel>
             </esatisfaction>
-			<esatisfaction_resource>
-				<class>Esat_Esatisfaction_Model_Resource</class>
-				<entities>
-					<item>
-						<table>esatisfaction_item</table>
-					</item>
-				</entities>
-			</esatisfaction_resource>
+            <esatisfaction_resource>
+                <class>Esat_Esatisfaction_Model_Resource</class>
+                <entities>
+                    <item>
+                        <table>esatisfaction_item</table>
+                    </item>
+                </entities>
+            </esatisfaction_resource>
         </models>
-		<resources>
-			<esat_esatisfaction_setup>
+        <resources>
+            <esat_esatisfaction_setup>
                 <setup>
                     <module>Esat_Esatisfaction</module>
                 </setup>
             </esat_esatisfaction_setup>
-		</resources>
+        </resources>
     </global>
     <adminhtml>
-		<translate>
+        <translate>
             <modules>
                 <Esat_Esatisfaction>
                     <files>
@@ -57,22 +57,22 @@
                 </Esat_Esatisfaction>
             </modules>
         </translate>
-		<events>		
-			<sales_order_save_after>
-				<observers>
-					<esatisfaction_check_sales_status>
-						<class>esatisfaction/observer</class>
-						<method>check_order_status_change</method>
-					</esatisfaction_check_sales_status>
-				</observers>
-			</sales_order_save_after>
-		</events>
+        <events>
+            <sales_order_save_after>
+                <observers>
+                    <esatisfaction_check_sales_status>
+                        <class>esatisfaction/observer</class>
+                        <method>check_order_status_change</method>
+                    </esatisfaction_check_sales_status>
+                </observers>
+            </sales_order_save_after>
+        </events>
     </adminhtml>
-	<default>
-		<esatisfaction>
-			<application>
-				<auto>1</auto>
-			</application>
-		</esatisfaction>
-	</default>
+    <default>
+        <esatisfaction>
+            <application>
+                <auto>1</auto>
+            </application>
+        </esatisfaction>
+    </default>
 </config>
