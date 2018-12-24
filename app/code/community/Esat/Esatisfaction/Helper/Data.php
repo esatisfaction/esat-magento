@@ -1,7 +1,7 @@
 <?php
 /**
  * Class Esat_Esatisfaction_Helper_Data
- * A Helper Data file is mandatory in order to create a module
+ * A Helper Data file is mandatory in order to create a module.
  */
 class Esat_Esatisfaction_Helper_Data extends Mage_Core_Helper_Abstract
 {
@@ -12,6 +12,7 @@ class Esat_Esatisfaction_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return Mage::getStoreConfig('esatisfaction/application/application_id');
     }
+
     /**
      * @return string
      */
@@ -19,6 +20,7 @@ class Esat_Esatisfaction_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return Mage::getStoreConfig('esatisfaction/application/auto');
     }
+
     /**
      * @return string
      */
@@ -26,6 +28,7 @@ class Esat_Esatisfaction_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return Mage::getStoreConfig('esatisfaction/application/status');
     }
+
     /**
      * @return string
      */
@@ -33,6 +36,7 @@ class Esat_Esatisfaction_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return Mage::getStoreConfig('esatisfaction/checkout/questionnaire_id');
     }
+
     /**
      * @return string
      */
@@ -40,6 +44,7 @@ class Esat_Esatisfaction_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return Mage::getStoreConfig('esatisfaction/delivery/questionnaire_id');
     }
+
     /**
      * @return string
      */
@@ -47,6 +52,7 @@ class Esat_Esatisfaction_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return Mage::getStoreConfig('esatisfaction/delivery/pipeline_id');
     }
+
     /**
      * @return string
      */
@@ -54,6 +60,7 @@ class Esat_Esatisfaction_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return Mage::getStoreConfig('esatisfaction/delivery/days_after');
     }
+
     /**
      * @return string
      */
@@ -61,6 +68,7 @@ class Esat_Esatisfaction_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return Mage::getStoreConfig('esatisfaction/delivery/send_questionnaire');
     }
+
     /**
      * @return string
      */
@@ -68,6 +76,7 @@ class Esat_Esatisfaction_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return Mage::getStoreConfig('esatisfaction/delivery/cancel_questionnaire');
     }
+
     /**
      * @return string
      */
@@ -75,6 +84,7 @@ class Esat_Esatisfaction_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return Mage::getStoreConfig('esatisfaction/pickup/questionnaire_id');
     }
+
     /**
      * @return string
      */
@@ -82,6 +92,7 @@ class Esat_Esatisfaction_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return Mage::getStoreConfig('esatisfaction/pickup/pipeline_id');
     }
+
     /**
      * @return string
      */
@@ -89,6 +100,7 @@ class Esat_Esatisfaction_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return Mage::getStoreConfig('esatisfaction/pickup/send_questionnaire');
     }
+
     /**
      * @return string
      */
@@ -96,6 +108,7 @@ class Esat_Esatisfaction_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return Mage::getStoreConfig('esatisfaction/pickup/cancel_questionnaire');
     }
+
     /**
      * @return string
      */
@@ -103,6 +116,7 @@ class Esat_Esatisfaction_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return Mage::getStoreConfig('esatisfaction/authentication/token');
     }
+
     /**
      * @return string
      */
@@ -110,12 +124,14 @@ class Esat_Esatisfaction_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return Mage::getStoreConfig('esatisfaction/setup/jquery_installed');
     }
+
     /**
      * @return array
      */
     public function getPickUpShippings()
     {
         $pickup_methods = Mage::getStoreConfig('esatisfaction/pickup/store_pickup');
+
         return explode(',', $pickup_methods);
     }
 }
