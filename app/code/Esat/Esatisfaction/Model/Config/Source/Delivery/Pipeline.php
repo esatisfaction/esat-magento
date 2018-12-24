@@ -2,30 +2,29 @@
 
 namespace Esat\Esatisfaction\Model\Config\Source\Delivery;
 
-use Magento\Framework\App\ObjectManager;
 use Esat\Esatisfaction\Helper\Data;
 
 class Pipeline implements \Magento\Framework\Option\ArrayInterface
 {
     protected $helper;
-	
-	public function __construct(Data $helper)
-	{
-		$this->helper = $helper;
-	}
-	
-	public function toOptionArray()
+
+    public function __construct(Data $helper)
     {
-        $token 				= $this->helper->getToken();
-		$application_id 	= $this->helper->getApplicationId();
-		
-		$pipelines = [];
-		
-        if (!empty($token) && !empty($application_id)) {			
-			$questionnaire_id 	= $this->helper->getDeliveryQuestionnaireId();
-			
+        $this->helper = $helper;
+    }
+
+    public function toOptionArray()
+    {
+        $token = $this->helper->getToken();
+        $application_id = $this->helper->getApplicationId();
+
+        $pipelines = [];
+
+        if (!empty($token) && !empty($application_id)) {
+            $questionnaire_id = $this->helper->getDeliveryQuestionnaireId();
+
             if (!empty($questionnaire_id)) {
-				 $ch = curl_init();
+                $ch = curl_init();
 
                 curl_setopt($ch, CURLOPT_URL, 'https://api.e-satisfaction.com/v3.0/q/questionnaire/'.$questionnaire_id.'/pipeline');
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -34,11 +33,11 @@ class Pipeline implements \Magento\Framework\Option\ArrayInterface
                 curl_setopt($ch, CURLOPT_HTTPHEADER, [
                   'Content-Type: application/json',
                   'Accept: application/json',
-                  'esat-auth: '.$token
+                  'esat-auth: '.$token,
                 ]);
 
                 $response = curl_exec($ch);
-				$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
                 curl_close($ch);
                 $response_data = json_decode($response, true);
 
@@ -46,29 +45,28 @@ class Pipeline implements \Magento\Framework\Option\ArrayInterface
                     foreach ($response_data as $result) {
                         $pipelines[] = [
                             'value' => $result['pipeline_id'],
-                            'label' => $result['title']
+                            'label' => $result['title'],
                         ];
                     }
                 } else {
                     $pipelines[] = [
                         'value' => 0,
-                        'label' => $response_data['message']
+                        'label' => $response_data['message'],
                     ];
                 }
-			} else {
+            } else {
                 $pipelines[] = [
                     'value' => 0,
-                    'label' => 'You must first select a Delivery Questionnaire'
+                    'label' => 'You must first select a Delivery Questionnaire',
                 ];
             }
-		} else {
+        } else {
             $pipelines[] = [
                 'value' => 0,
-                'label' => 'You must give Authentication Token & Application ID'
+                'label' => 'You must give Authentication Token & Application ID',
             ];
         }
-		
-		return $pipelines;
+
+        return $pipelines;
     }
 }
-?>
