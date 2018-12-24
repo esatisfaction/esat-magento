@@ -2,37 +2,34 @@
 
 namespace Esat\Esatisfaction\Model\Config\Source;
 
-use Magento\Framework\App\ObjectManager;
-
 class Shipping implements \Magento\Framework\Option\ArrayInterface
 {
-	protected $storeManager;
-  
+    protected $storeManager;
+
     protected $shippingConfig;
- 
+
     protected $scopeConfig;
-	
-	public function __construct (\Magento\Store\Model\StoreManagerInterface $storeManager, \Magento\Shipping\Model\Config $shippingConfig, \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig)
-	{
+
+    public function __construct(\Magento\Store\Model\StoreManagerInterface $storeManager, \Magento\Shipping\Model\Config $shippingConfig, \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig)
+    {
         $this->storeManager = $storeManager;
         $this->shippingConfig = $shippingConfig;
         $this->scopeConfig = $scopeConfig;
     }
-	
-	public function toOptionArray ()
-	{
-		$allCarriers = $this->shippingConfig->getAllCarriers($this->storeManager->getStore());
- 
+
+    public function toOptionArray()
+    {
+        $allCarriers = $this->shippingConfig->getAllCarriers($this->storeManager->getStore());
+
         $shippingMethodsArray = [];
-        foreach ($allCarriers as $shippigCode => $shippingModel) 
-		{
+        foreach ($allCarriers as $shippigCode => $shippingModel) {
             $shippingTitle = $this->scopeConfig->getValue('carriers/'.$shippigCode.'/title');
             $shippingMethodsArray[$shippigCode] = [
                 'label' => $shippingTitle,
-                'value' => $shippigCode
+                'value' => $shippigCode,
             ];
         }
+
         return $shippingMethodsArray;
-	}
+    }
 }
-?>
