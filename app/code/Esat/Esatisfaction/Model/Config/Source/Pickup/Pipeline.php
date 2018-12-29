@@ -3,69 +3,88 @@
 namespace Esat\Esatisfaction\Model\Config\Source\Pickup;
 
 use Esat\Esatisfaction\Helper\Data;
+use Exception;
+use InvalidArgumentException;
+use Throwable;
 
+/**
+ * Class Pipeline
+ * @package Esat\Esatisfaction\Model\Config\Source\Pickup
+ */
 class Pipeline implements \Magento\Framework\Option\ArrayInterface
 {
+    /**
+     * @var Data
+     */
     protected $helper;
 
+    /**
+     * Pipeline constructor.
+     *
+     * @param Data $helper
+     */
     public function __construct(Data $helper)
     {
         $this->helper = $helper;
     }
 
+    /**
+     * @return array
+     */
     public function toOptionArray()
     {
-        $token = $this->helper->getToken();
-        $application_id = $this->helper->getApplicationId();
+        try {
+            $token = $this->helper->getToken();
+            $applicationId = $this->helper->getApplicationId();
 
-        $pipelines = [];
-        if (!empty($token) && !empty($application_id)) {
-            $questionnaire_id = $this->helper->getPickupQuestionnaireId();
+            // Check for token and application id
+            if (empty($token) || empty($applicationId)) {
+                throw new InvalidArgumentException('You must give Authentication Token and Application Id');
+            }
 
-            if (!empty($questionnaire_id)) {
-                $ch = curl_init();
+            // Get questionnaire id
+            $questionnaireId = $this->helper->getDeliveryQuestionnaireId();
+            if (empty($questionnaireId)) {
+                throw new InvalidArgumentException('You must first select a Pickup Questionnaire');
+            }
 
-                curl_setopt($ch, CURLOPT_URL, 'https://api.e-satisfaction.com/v3.0/q/questionnaire/'.$questionnaire_id.'/pipeline');
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_HEADER, false);
+            // Prepare curl for API call
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, sprintf('https://api.e-satisfaction.com/v3.0/q/questionnaire/%s/pipeline', $questionnaireId));
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HEADER, false);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                'Content-Type: application/json',
+                'Accept: application/json',
+                'esat-auth: ' . $token,
+            ]);
 
-                curl_setopt($ch, CURLOPT_HTTPHEADER, [
-                  'Content-Type: application/json',
-                  'Accept: application/json',
-                  'esat-auth: '.$token,
-                ]);
+            // Execute API call
+            $response = curl_exec($ch);
+            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_close($ch);
+            $responseArray = json_decode($response, true);
 
-                $response = curl_exec($ch);
-                $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-                curl_close($ch);
-                $response_data = json_decode($response, true);
+            // On error, return message to user
+            if ($httpCode != 200) {
+                throw new Exception($responseArray['message']);
+            }
 
-                if ($httpcode == 200) {
-                    foreach ($response_data as $result) {
-                        $pipelines[] = [
-                            'value' => $result['pipeline_id'],
-                            'label' => $result['title'],
-                        ];
-                    }
-                } else {
-                    $pipelines[] = [
-                        'value' => 0,
-                        'label' => $response_data['message'],
-                    ];
-                }
-            } else {
-                $pipelines[] = [
-                    'value' => 0,
-                    'label' => 'You must first select a Pickup Questionnaire',
+            // Gather response data
+            $optionArray = [];
+            foreach ($responseArray as $result) {
+                $optionArray[] = [
+                    'value' => $result['pipeline_id'],
+                    'label' => $result['title'],
                 ];
             }
-        } else {
-            $pipelines[] = [
+
+            return $optionArray;
+        } catch (Throwable $ex) {
+            return [
                 'value' => 0,
-                'label' => 'You must give Authentication Token & Application ID',
+                'label' => $ex->getMessage(),
             ];
         }
-
-        return $pipelines;
     }
 }

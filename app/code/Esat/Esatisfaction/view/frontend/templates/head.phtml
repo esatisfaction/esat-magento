@@ -1,14 +1,14 @@
-<?php 
+<?php
 
 $status = $this->_getStatus();
-if($status) { 
-	$application_id = $this->_getApplicationId(); 
-?>
-	<script>
-		window.esat_config = {
-			application_id: '<?php echo $application_id; ?>'
-		};
-	</script>
-<?php 
-} 
+if ($status) {
+    $application_id = $this->_getApplicationId();
+    ?>
+    <script>
+        window.esat_config = {
+            application_id: '<?php echo $application_id; ?>'
+        };
+    </script>
+    <?php
+}
 ?>

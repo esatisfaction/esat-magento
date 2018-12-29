@@ -7,10 +7,23 @@ use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\App\Helper\Context;
 use Magento\Framework\Encryption\EncryptorInterface;
 
+/**
+ * Class Data
+ * @package Esat\Esatisfaction\Helper
+ */
 class Data extends AbstractHelper
 {
+    /**
+     * @var EncryptorInterface
+     */
     protected $encryptor;
 
+    /**
+     * Data constructor.
+     *
+     * @param Context            $context
+     * @param EncryptorInterface $encryptor
+     */
     public function __construct(Context $context, EncryptorInterface $encryptor)
     {
         parent::__construct($context);

@@ -1,19 +1,11 @@
 <?xml version="1.0"?>
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
-	<body>
-		<referenceBlock name="head.additional">
-			<block 
-				class="Esat\Esatisfaction\Block\Head" 
-				name="esatisfaction_head" 
-				template="Esat_Esatisfaction::head.phtml" 
-			/>
-		</referenceBlock>
-		<referenceContainer name="before.body.end">
-			<block 
-				class="Esat\Esatisfaction\Block\Foot" 
-				name="esatisfaction_foot" 
-				template="Esat_Esatisfaction::foot.phtml" 
-			/>
-		</referenceContainer>
-	</body>
+    <body>
+        <referenceBlock name="head.additional">
+            <block class="Esat\Esatisfaction\Block\Head" name="esatisfaction_head" template="Esat_Esatisfaction::head.phtml"/>
+        </referenceBlock>
+        <referenceContainer name="before.body.end">
+            <block class="Esat\Esatisfaction\Block\Foot" name="esatisfaction_foot" template="Esat_Esatisfaction::foot.phtml"/>
+        </referenceContainer>
+    </body>
 </page>

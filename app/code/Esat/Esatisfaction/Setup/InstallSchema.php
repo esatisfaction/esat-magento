@@ -10,17 +10,17 @@ class InstallSchema implements \Magento\Framework\Setup\InstallSchemaInterface
         $installer->startSetup();
         if (!$installer->tableExists('esatisfaction_item')) {
             $table = $installer->getConnection()->newTable($installer->getTable('esatisfaction_item'))
-            ->addColumn('order_item_id', \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER, null, [
-                'identity' => true,
-                'unsigned' => true,
-                'nullable' => false,
-                'primary'  => true,
+                ->addColumn('order_item_id', \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER, null, [
+                    'identity' => true,
+                    'unsigned' => true,
+                    'nullable' => false,
+                    'primary' => true,
                 ], 'OrderItemId')
-            ->addColumn('order_id', \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER, null, [
-                'primary'   => true,
+                ->addColumn('order_id', \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER, null, [
+                    'primary' => true,
                 ], 'OrderId')
-            ->addColumn('item_id', \Magento\Framework\DB\Ddl\Table::TYPE_TEXT, 255, [
-                'nullable'  => false,
+                ->addColumn('item_id', \Magento\Framework\DB\Ddl\Table::TYPE_TEXT, 255, [
+                    'nullable' => false,
                 ], 'ItemId');
 
             $installer->getConnection()->createTable($table);

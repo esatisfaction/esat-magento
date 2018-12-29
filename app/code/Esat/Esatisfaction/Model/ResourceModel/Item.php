@@ -2,11 +2,22 @@
 
 namespace Esat\Esatisfaction\Model\ResourceModel;
 
-class Item extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
+use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
+use Magento\Framework\Model\ResourceModel\Db\Context;
+
+/**
+ * Class Item
+ * @package Esat\Esatisfaction\Model\ResourceModel
+ */
+class Item extends AbstractDb
 {
-    public function __construct(
-        \Magento\Framework\Model\ResourceModel\Db\Context $context
-    ) {
+    /**
+     * Item constructor.
+     *
+     * @param Context $context
+     */
+    public function __construct(Context $context)
+    {
         parent::__construct($context);
     }
 
