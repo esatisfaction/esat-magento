@@ -3,141 +3,166 @@
 namespace Esat\Esatisfaction\Observer;
 
 use Esat\Esatisfaction\Helper\Data;
+use Esat\Esatisfaction\Model\ItemFactory;
+use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 
+/**
+ * Class Esatisfaction
+ * @package Esat\Esatisfaction\Observer
+ */
 class Esatisfaction implements ObserverInterface
 {
+    /**
+     * @var Data
+     */
     protected $helper;
+
+    /**
+     * @var ItemFactory
+     */
     protected $_itemFactory;
 
-    public function __construct(
-        Data $helper,
-        \Esat\Esatisfaction\Model\ItemFactory $itemFactory
-    ) {
+    /**
+     * Esatisfaction constructor.
+     *
+     * @param Data        $helper
+     * @param ItemFactory $itemFactory
+     */
+    public function __construct(Data $helper, ItemFactory $itemFactory)
+    {
         $this->helper = $helper;
         $this->_itemFactory = $itemFactory;
     }
 
-    public function execute(\Magento\Framework\Event\Observer $observer)
+    /**
+     * @param Observer $observer
+     */
+    public function execute(Observer $observer)
     {
+        // Get status
         $status = $this->helper->getStatus();
-        if ($status) {
-            $token = $this->helper->getToken();
-            $application_id = $this->helper->getApplicationId();
-            $auto = $this->helper->getAuto();
+        if (!$status) {
+            return;
+        }
 
-            if (!$auto) {
-                $order = $observer->getEvent()->getOrder();
-                $status = $order->getStatus();
-                $shipping_method = explode('_', $order->getShippingMethod());
+        // Get data
+        $token = $this->helper->getToken();
+        $applicationId = $this->helper->getApplicationId();
+        $auto = $this->helper->getAuto();
 
-                if (!empty($token) && !empty($application_id)) {
-                    $email = $order->getCustomerEmail();
-                    $telephone = $order->getBillingAddress()->getTelephone();
+        // Check for auto config
+        if ($auto) {
+            return;
+        }
 
-                    /* Check if shipping_method is for pickup or delivery */
-                    $pickup_methods = $this->helper->getPickUpShippings();
+        // Check for token and application id
+        if (empty($token) || empty($applicationId)) {
+            return;
+        }
 
-                    if (in_array($shipping_method[0], $pickup_methods)) {
-                        $is_pickup = true;
-                        $send_questionnaire_status = explode(',', $this->helper->getPickupSendQuestionnaire());
-                        $cancel_questionnaire_status = explode(',', $this->helper->getPickupCancelQuestionnaire());
-                        $questionnaire_id = $this->helper->getPickupQuestionnaireId();
-                        $pipeline_id = $this->helper->getPickupPipelineId();
-                    } else {
-                        $is_pickup = false;
-                        $send_questionnaire_status = explode(',', $this->helper->getDeliverySendQuestionnaire());
-                        $cancel_questionnaire_status = explode(',', $this->helper->getDeliveryCancelQuestionnaire());
-                        $questionnaire_id = $this->helper->getDeliveryQuestionnaireId();
-                        $pipeline_id = $this->helper->getDeliveryPipelineId();
-                    }
+        // Get order data
+        $order = $observer->getEvent()->getOrder();
+        $status = $order->getStatus();
+        $shippingMethod = explode('_', $order->getShippingMethod());
 
-                    /* Status for sending questionnaire */
-                    if (in_array($status, $send_questionnaire_status)) {
-                        $url = 'https://api.e-satisfaction.com/v3.0/q/questionnaire/';
-                        $url .= $questionnaire_id;
-                        $url .= '/pipeline/';
-                        $url .= $pipeline_id;
-                        $url .= '/queue/item';
+        // Get responder data
+        $email = $order->getCustomerEmail();
+        $telephone = $order->getBillingAddress()->getTelephone();
 
-                        $post_fields = [
-                            'responder_channel_identifier' => $email,
-                            'locale'                       => 'el',
-                            'metadata'                     => [
-                                'questionnaire'    => [
-                                    'transaction_id'       => $order->getIncrementId(),
-                                    'transaction_date'     => $order->getCreatedAt(),
-                                ],
-                                'responder'    => [
-                                    'email'            => $email,
-                                    'phone_number'     => $telephone,
-                                ],
-                            ],
-                        ];
+        // Check if shipping_method is for pickup or delivery
+        $pickupMethods = $this->helper->getPickUpShippings();
 
-                        if ($is_pickup === false) {
-                            $days_after = $this->helper->getDeliveryDaysAfter();
-                            $cur_date = date('Y-m-d');
-                            $cur_time = strtotime($cur_date.' + '.$days_after.' days ');
-                            $post_fields['send_time'] = date('Y-m-d H:m:s', $cur_time);
-                        }
+        if (in_array($shippingMethod[0], $pickupMethods)) {
+            $isPickup = true;
+            $sendQuestionnaireStatus = explode(',', $this->helper->getPickupSendQuestionnaire());
+            $cancelQuestionnaireStatus = explode(',', $this->helper->getPickupCancelQuestionnaire());
+            $questionnaireId = $this->helper->getPickupQuestionnaireId();
+            $pipelineId = $this->helper->getPickupPipelineId();
+        } else {
+            $isPickup = false;
+            $sendQuestionnaireStatus = explode(',', $this->helper->getDeliverySendQuestionnaire());
+            $cancelQuestionnaireStatus = explode(',', $this->helper->getDeliveryCancelQuestionnaire());
+            $questionnaireId = $this->helper->getDeliveryQuestionnaireId();
+            $pipelineId = $this->helper->getDeliveryPipelineId();
+        }
 
-                        $ch = curl_init();
+        /* Status for sending questionnaire */
+        if (in_array($status, $sendQuestionnaireStatus)) {
+            $url = sprintf('https://api.e-satisfaction.com/v3.0/q/questionnaire/%s/pipeline/%s/queue/item', $questionnaireId, $pipelineId);
+            $postFields = [
+                'responder_channel_identifier' => $email,
+                'locale' => 'el',
+                'metadata' => [
+                    'questionnaire' => [
+                        'transaction_id' => $order->getIncrementId(),
+                        'transaction_date' => $order->getCreatedAt(),
+                    ],
+                    'responder' => [
+                        'email' => $email,
+                        'phone_number' => $telephone,
+                    ],
+                ],
+            ];
 
-                        curl_setopt($ch, CURLOPT_URL, $url);
-                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                        curl_setopt($ch, CURLOPT_HEADER, false);
+            // Check for pickup
+            if ($isPickup === false) {
+                $daysAfter = $this->helper->getDeliveryDaysAfter();
+                $currentDate = date('Y-m-d');
+                $currentTime = strtotime($currentDate . ' + ' . $daysAfter . ' days ');
+                $postFields['send_time'] = date('Y-m-d H:m:s', $currentTime);
+            }
 
-                        curl_setopt($ch, CURLOPT_POST, true);
+            // Prepare curl
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HEADER, false);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postFields));
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                'Content-Type: application/json',
+                'Accept: application/json',
+                'esat-auth:' . $token,
+            ]);
 
-                        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($post_fields));
+            $response = curl_exec($ch);
+            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_close($ch);
 
-                        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-                          'Content-Type: application/json',
-                          'Accept: application/json',
-                          'esat-auth:'.$token,
-                        ]);
+            $response = json_decode($response, true);
 
-                        $response = curl_exec($ch);
-                        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-                        curl_close($ch);
+            if ($httpCode == 201) {
+                $item = $this->_itemFactory->create();
+                $item->setOrderId($order->getId());
+                $item->setItemId($response['item_id']);
+                $item->save();
+            }
+        }
 
-                        $response = json_decode($response, true);
+        /* Status for canceling questionnaire */
+        if (in_array($status, $cancelQuestionnaireStatus)) {
+            $collection = $this->_itemFactory->create()->getCollection()->addFieldToFilter('order_id', $order->getId());
+            $item = $collection->getFirstItem();
+            $url = sprintf('https://api.e-satisfaction.com/v3.0/q/queue/item/%s', $item->getItemId());
 
-                        if ($httpcode == 201) {
-                            $item = $this->_itemFactory->create();
-                            $item->setOrderId($order->getId());
-                            $item->setItemId($response['item_id']);
-                            $item->save();
-                        }
-                    }
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HEADER, false);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                'Content-Type: application/json',
+                'Accept: application/json',
+                'esat-auth:' . $token,
+            ]);
 
-                    /* Status for canceling questionnaire */
-                    if (in_array($status, $cancel_questionnaire_status)) {
-                        $collection = $this->_itemFactory->create()->getCollection()->addFieldToFilter('order_id', $order->getId());
-                        $item = $collection->getFirstItem();
-                        $url = 'https://api.e-satisfaction.com/v3.0/q/queue/item/'.$item->getItemId();
+            curl_exec($ch);
+            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_close($ch);
 
-                        $ch = curl_init();
-                        curl_setopt($ch, CURLOPT_URL, $url);
-                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                        curl_setopt($ch, CURLOPT_HEADER, false);
-                        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
-                        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-                          'Content-Type: application/json',
-                          'Accept: application/json',
-                          'esat-auth:'.$token,
-                        ]);
-
-                        $response = curl_exec($ch);
-                        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-                        curl_close($ch);
-
-                        if ($httpcode == 204) {
-                            $item->delete();
-                        }
-                    }
-                }
+            if ($httpCode == 204) {
+                $item->delete();
             }
         }
     }
