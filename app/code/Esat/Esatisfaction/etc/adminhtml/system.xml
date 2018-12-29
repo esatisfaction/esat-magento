@@ -1,0 +1,129 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="esat" translate="label" sortOrder="100">
+            <label>e-satisfaction</label>
+        </tab>
+        <section id="esatisfaction" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>e-satisfaction Settings</label>
+            <tab>esat</tab>
+            <resource>Esat_Esatisfaction::esatisfaction_config</resource>
+            <group id="application" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Application</label>
+                <field id="application_id" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Application</label>
+					<comment>You must input an Application ID before you can use the extension</comment>
+                </field>
+                <field id="auto" translate="label, comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Automatic Questionnaires</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+					<comment>e-satisfaction platform sends automatic questionnaire. If you want to send them manually from the order status changes you must first change the settings in the e-Satisfaction platform.</comment>
+                </field>
+                <field id="status" translate="label, comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Status</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+            <group id="authentication" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>API Authentication Token</label>
+                <field id="token" translate="label, comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Token</label>
+					<comment>You must input an Authentication Token before you can use the extension</comment>
+                </field>
+            </group>
+            <group id="checkout" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Checkout Questionnaire</label>
+                <field id="questionnaire_id" translate="label, comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Questionnaire</label>
+					<source_model>Esat\Esatisfaction\Model\Config\Source\Questionnaire</source_model>
+					<comment>On your e-satisfaction.com questionnaire integration settings, set the integration type to embedded and the position to #esat-checkout-questionnaire-container</comment>
+                </field>
+            </group>
+            <group id="delivery" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>After Delivery Questionnaire</label>
+                <field id="questionnaire_id" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Questionnaire</label>
+					<source_model>Esat\Esatisfaction\Model\Config\Source\Questionnaire</source_model>
+					<depends>
+						<field id="esatisfaction/application/auto">0</field>
+					</depends>
+                </field>
+                <field id="pipeline_id" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Pipeline</label>
+					<source_model>Esat\Esatisfaction\Model\Config\Source\Delivery\Pipeline</source_model>
+					<depends>
+						<field id="esatisfaction/application/auto">0</field>
+					</depends>
+                </field>
+                <field id="days_after" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Days after to send questionnaire</label>
+					<depends>
+						<field id="esatisfaction/application/auto">0</field>
+					</depends>
+                </field>
+                <field id="send_questionnaire" translate="label" type="multiselect" sortOrder="40" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Order status(es) to send questionnaire</label>
+					<source_model>Esat\Esatisfaction\Model\Config\Source\Order\Status</source_model>
+					<depends>
+						<field id="esatisfaction/application/auto">0</field>
+					</depends>
+                </field>
+                <field id="after_delivery" translate="label" type="multiselect" sortOrder="50" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Condition to determine when it’s after delivery</label>
+					<source_model>Esat\Esatisfaction\Model\Config\Source\Shipping</source_model>
+                </field>
+                <field id="cancel_questionnaire" translate="label" type="multiselect" sortOrder="60" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Order status(es) to cancel questionnaire</label>
+					<source_model>Esat\Esatisfaction\Model\Config\Source\Order\Status</source_model>
+					<depends>
+						<field id="esatisfaction/application/auto">0</field>
+					</depends>
+                </field>
+            </group>
+            <group id="pickup" translate="label,comment" type="text" sortOrder="50" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Store Pick Up Questionnaire</label>
+                <field id="questionnaire_id" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Questionnaire</label>
+					<source_model>Esat\Esatisfaction\Model\Config\Source\Questionnaire</source_model>
+					<depends>
+						<field id="esatisfaction/application/auto">0</field>
+					</depends>
+                </field>
+                <field id="pipeline_id" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Pipeline</label>
+					<source_model>Esat\Esatisfaction\Model\Config\Source\Pickup\Pipeline</source_model>
+					<depends>
+						<field id="esatisfaction/application/auto">0</field>
+					</depends>
+                </field>
+                <field id="send_questionnaire" translate="label" type="multiselect" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Order status(es) to send questionnaire</label>
+					<source_model>Esat\Esatisfaction\Model\Config\Source\Order\Status</source_model>
+					<depends>
+						<field id="esatisfaction/application/auto">0</field>
+					</depends>
+                </field>
+                <field id="store_pickup" translate="label" type="multiselect" sortOrder="40" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Condition to determine when it’s store pickup</label>
+					<source_model>Esat\Esatisfaction\Model\Config\Source\Shipping</source_model>
+                </field>
+                <field id="cancel_questionnaire" translate="label" type="multiselect" sortOrder="50" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Order status(es) to cancel questionnaire</label>
+					<source_model>Esat\Esatisfaction\Model\Config\Source\Order\Status</source_model>
+					<depends>
+						<field id="esatisfaction/application/auto">0</field>
+					</depends>
+                </field>
+            </group>
+            <group id="setup" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Template Settings</label>
+                <field id="jquery_installed" translate="label, comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>jQuery Installed</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+					<comment>Select yes if jquery is installed in your magento theme installation</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
