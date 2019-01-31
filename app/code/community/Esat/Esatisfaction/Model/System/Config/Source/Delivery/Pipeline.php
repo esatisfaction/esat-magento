@@ -7,8 +7,8 @@ class Esat_Esatisfaction_Model_System_Config_Source_Delivery_Pipeline
         $esat_helper = Mage::helper('esatisfaction/data');
         $token = $esat_helper->getToken();
         $application_id = $esat_helper->getApplicationId();
-		$pipelines = [];
-		
+        $pipelines = [];
+
         if (!empty($token) && !empty($application_id)) {
             $questionnaire_id = $esat_helper->getDeliveryQuestionnaireId();
 
@@ -22,11 +22,11 @@ class Esat_Esatisfaction_Model_System_Config_Source_Delivery_Pipeline
                 curl_setopt($ch, CURLOPT_HTTPHEADER, [
                   'Content-Type: application/json',
                   'Accept: application/json',
-                  'esat-auth: '.$token
+                  'esat-auth: '.$token,
                 ]);
 
                 $response = curl_exec($ch);
-				$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
                 curl_close($ch);
                 $response_data = json_decode($response, true);
 
@@ -34,25 +34,25 @@ class Esat_Esatisfaction_Model_System_Config_Source_Delivery_Pipeline
                     foreach ($response_data as $result) {
                         $pipelines[] = [
                             'value' => $result['pipeline_id'],
-                            'label' => $result['title']
+                            'label' => $result['title'],
                         ];
                     }
                 } else {
                     $pipelines[] = [
                         'value' => 0,
-                        'label' => $response_data['message']
+                        'label' => $response_data['message'],
                     ];
                 }
             } else {
                 $pipelines[] = [
                     'value' => 0,
-                    'label' => 'You must first select a Delivery Questionnaire'
+                    'label' => 'You must first select a Delivery Questionnaire',
                 ];
             }
         } else {
             $pipelines[] = [
                 'value' => 0,
-                'label' => 'You must give Authentication Token & Application ID'
+                'label' => 'You must give Authentication Token & Application ID',
             ];
         }
 

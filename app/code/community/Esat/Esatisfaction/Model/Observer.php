@@ -20,7 +20,7 @@ class Esat_Esatisfaction_Model_Observer
                 $order = $observer->getOrder();
                 $status = $order->getStatus();
                 $shipping_method = explode('_', $order->getShippingMethod());
-				
+
                 if (!empty($token) && !empty($token)) {
                     if ($order->getCustomerIsGuest()) {
                         $email = $order->getCustomerEmail();
@@ -29,7 +29,7 @@ class Esat_Esatisfaction_Model_Observer
                         $email = $order->getEmail();
                         $telephone = $order->getTelephone();
                     }
-					
+
                     // Check if shipping_method is for pickup or delivery
                     $pickupMethods = $helperData->getPickUpShippings();
                     if (in_array($shipping_method[0], $pickupMethods)) {
@@ -45,32 +45,32 @@ class Esat_Esatisfaction_Model_Observer
                         $questionnaireId = $helperData->getDeliveryQuestionnaireId();
                         $pipelineId = $helperData->getDeliveryPipelineId();
                     }
-					
+
                     // Status for sending questionnaire
                     if (in_array($status, $sendQuestionnaireStatus)) {
                         $url = sprintf('https://api.e-satisfaction.com/v3.0/q/questionnaire/%s/pipeline/%s/queue/item', $questionnaireId, $pipelineId);
                         $postFields = [
                             'responder_channel_identifier' => $email,
-                            'locale' => 'el',
-                            'metadata' => [
+                            'locale'                       => 'el',
+                            'metadata'                     => [
                                 'questionnaire' => [
-                                    'transaction_id' => $order->getIncrementId(),
+                                    'transaction_id'   => $order->getIncrementId(),
                                     'transaction_date' => $order->getCreatedAt(),
                                 ],
                                 'responder' => [
-                                    'email' => $email,
+                                    'email'        => $email,
                                     'phone_number' => $telephone,
                                 ],
                             ],
                         ];
-						
+
                         if ($isPickup === false) {
                             $daysAfter = $helperData->getDeliveryDaysAfter();
                             $currentDate = date('Y-m-d');
-                            $currentTime = strtotime($currentDate . ' + ' . $daysAfter . ' days ');
+                            $currentTime = strtotime($currentDate.' + '.$daysAfter.' days ');
                             $postFields['send_time'] = date('Y-m-d H:m:s', $currentTime);
                         }
-						
+
                         $ch = curl_init();
                         curl_setopt($ch, CURLOPT_URL, $url);
                         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -80,9 +80,9 @@ class Esat_Esatisfaction_Model_Observer
                         curl_setopt($ch, CURLOPT_HTTPHEADER, [
                             'Content-Type: application/json',
                             'Accept: application/json',
-                            'esat-auth:' . $token,
+                            'esat-auth:'.$token,
                         ]);
-						
+
                         $response = curl_exec($ch);
                         $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
                         curl_close($ch);
@@ -94,14 +94,14 @@ class Esat_Esatisfaction_Model_Observer
                             $item->save();
                         }
                     }
-					
+
                     // Status for canceling questionnaire
                     if (in_array($status, $cancelQuestionnaireStatus)) {
                         $collection = Mage::getModel('esatisfaction/item')->getCollection()->addFieldToFilter('order_id', $order->getIncrementId());
                         $item = $collection->getFirstItem();
-						
-                        $url = 'https://api.e-satisfaction.com/v3.0/q/queue/item/' . $item->getItemId();
-						
+
+                        $url = 'https://api.e-satisfaction.com/v3.0/q/queue/item/'.$item->getItemId();
+
                         $ch = curl_init();
                         curl_setopt($ch, CURLOPT_URL, $url);
                         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -110,13 +110,13 @@ class Esat_Esatisfaction_Model_Observer
                         curl_setopt($ch, CURLOPT_HTTPHEADER, [
                             'Content-Type: application/json',
                             'Accept: application/json',
-                            'esat-auth:' . $token,
+                            'esat-auth:'.$token,
                         ]);
-						
+
                         curl_exec($ch);
                         $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
                         curl_close($ch);
-						
+
                         if ($httpcode == 204) {
                             $item->delete();
                         }

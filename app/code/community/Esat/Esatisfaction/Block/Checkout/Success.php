@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Class Esat_Esatisfaction_Block_Checkout_Success
+ * Class Esat_Esatisfaction_Block_Checkout_Success.
  */
 class Esat_Esatisfaction_Block_Checkout_Success extends Mage_Core_Block_Template
 {
     /**
-     * Get last orders data needed
+     * Get last orders data needed.
      *
      * @return array
      */
@@ -16,7 +16,7 @@ class Esat_Esatisfaction_Block_Checkout_Success extends Mage_Core_Block_Template
         $orderId = Mage::getSingleton('checkout/session')->getLastOrderId();
         $orderData = Mage::getModel('sales/order')->load($orderId);
 
-        /**
+        /*
          * If the customer checked out as a guest use billing address telephone
          * else use the saved telephone
          */
@@ -38,10 +38,10 @@ class Esat_Esatisfaction_Block_Checkout_Success extends Mage_Core_Block_Template
         }
 
         return [
-            'email' => $email,
-            'telephone' => $telephone,
+            'email'        => $email,
+            'telephone'    => $telephone,
             'increment_id' => $orderData->getIncrementId(),
-            'created_at' => $orderData->getCreatedAt(),
+            'created_at'   => $orderData->getCreatedAt(),
             'store_pickup' => $storePickup,
         ];
     }
