@@ -1,10 +1,13 @@
-<?php 
-$esat_helper = Mage::helper('esatisfaction/data');
-$application_id = $esat_helper->getApplicationId();
+<?php
+$helperData = Mage::helper('esatisfaction/data');
+$status = $helperData->getStatus();
+if($status){	
+	$applicationId = $helperData->getApplicationId();
 ?>
-<script>
-	window.esat_config = 
-	{
-		application_id: '<?php echo $application_id; ?>'
-	};
-</script>
+	<script>
+		window.esat_config =
+			{
+				application_id: '<?php echo $applicationId; ?>'
+			};
+	</script>
+<?php } ?>
