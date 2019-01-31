@@ -18,7 +18,7 @@ class Esat_Esatisfaction_Model_System_Config_Source_Questionnaire
             curl_setopt($ch, CURLOPT_HTTPHEADER, [
                 'Content-Type: application/json',
                 'Accept: application/json',
-                'esat-auth:'.$token
+                'esat-auth:'.$token,
             ]);
 
             $response = curl_exec($ch);
@@ -32,19 +32,19 @@ class Esat_Esatisfaction_Model_System_Config_Source_Questionnaire
                 foreach ($results as $result) {
                     $questionnaires[] = [
                         'value' => $result['questionnaire_id'],
-                        'label' => $result['display_name']
+                        'label' => $result['display_name'],
                     ];
                 }
             } else {
                 $questionnaires[] = [
                     'value' => 0,
-                    'label' => $response_data['message']
+                    'label' => $response_data['message'],
                 ];
             }
         } else {
             $questionnaires[] = [
                 'value' => 0,
-                'label' => 'You must give Authentication Token & Application ID'
+                'label' => 'You must give Authentication Token & Application ID',
             ];
         }
 

@@ -10,7 +10,7 @@ class Esat_Esatisfaction_Model_System_Config_Source_Shipping
         foreach ($methods as $code => $method) {
             $themes[] = [
                 'value' => $code,
-                'label' => Mage::getStoreConfig('carriers/'.$code.'/title')
+                'label' => Mage::getStoreConfig('carriers/'.$code.'/title'),
             ];
         }
 
