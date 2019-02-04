@@ -3,6 +3,6 @@ $helperData = Mage::helper('esatisfaction/data');
 $jqueryInstalled = $helperData->getIsJQueryEnabled();
 
 $fileName = $jqueryInstalled ? 'integration.jq.min.js' : 'integration.min.js';
-$esatisfaction_script = sprintf('https://collection.e-satisfaction.com/dist/js/%', $fileName);
+$esatisfaction_script = sprintf('https://collection.e-satisfaction.com/dist/js/%s', $fileName);
 ?>
 <script src="<?php echo $esatisfaction_script; ?>"></script>
