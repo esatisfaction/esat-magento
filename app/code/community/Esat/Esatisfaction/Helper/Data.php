@@ -25,14 +25,6 @@ class Esat_Esatisfaction_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * @return string
      */
-    public function getStatus()
-    {
-        return Mage::getStoreConfig('esatisfaction/application/status');
-    }
-
-    /**
-     * @return string
-     */
     public function getCheckoutQuestionnaireId()
     {
         return Mage::getStoreConfig('esatisfaction/checkout/questionnaire_id');
