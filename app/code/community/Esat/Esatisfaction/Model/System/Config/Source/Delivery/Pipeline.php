@@ -1,28 +1,34 @@
 <?php
 
+/**
+ * Class Esat_Esatisfaction_Model_System_Config_Source_Delivery_Pipeline
+ */
 class Esat_Esatisfaction_Model_System_Config_Source_Delivery_Pipeline
 {
+    /**
+     * @return array
+     */
     public function toOptionArray()
     {
-        $esat_helper = Mage::helper('esatisfaction/data');
-        $token = $esat_helper->getToken();
-        $application_id = $esat_helper->getApplicationId();
+        $helperData = Mage::helper('esatisfaction/data');
+        $token = $helperData->getToken();
+        $applicationId = $helperData->getApplicationId();
         $pipelines = [];
 
-        if (!empty($token) && !empty($application_id)) {
-            $questionnaire_id = $esat_helper->getDeliveryQuestionnaireId();
+        if (!empty($token) && !empty($applicationId)) {
+            $questionnaireId = $helperData->getDeliveryQuestionnaireId();
 
-            if (!empty($questionnaire_id)) {
+            if (!empty($questionnaireId)) {
                 $ch = curl_init();
 
-                curl_setopt($ch, CURLOPT_URL, 'https://api.e-satisfaction.com/v3.0/q/questionnaire/'.$questionnaire_id.'/pipeline');
+                curl_setopt($ch, CURLOPT_URL, sprintf('https://api.e-satisfaction.com/v3.0/q/questionnaire/%s/pipeline', $questionnaireId));
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 curl_setopt($ch, CURLOPT_HEADER, false);
 
                 curl_setopt($ch, CURLOPT_HTTPHEADER, [
-                  'Content-Type: application/json',
-                  'Accept: application/json',
-                  'esat-auth: '.$token,
+                    'Content-Type: application/json',
+                    'Accept: application/json',
+                    'esat-auth: ' . $token,
                 ]);
 
                 $response = curl_exec($ch);

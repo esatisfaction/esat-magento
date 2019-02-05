@@ -1,13 +1,12 @@
 <?php
 // Load Helper to get get main settings
 $esatisfaction = Mage::helper('esatisfaction/data');
-$status = $esatisfaction->getStatus();
-if($status){
-	
-	$applicationId = $esatisfaction->getApplicationId();
-	$questionnaireId = $esatisfaction->getCheckoutQuestionnaireId();
-	// Get Order Data from esatisfaction block ( Block/Checkout/Success )
-	$orderData = $this->getOrderData();
+$applicationId = $esatisfaction->getApplicationId();
+$questionnaireId = $esatisfaction->getCheckoutQuestionnaireId();
+
+// Get Order Data from esatisfaction block ( Block/Checkout/Success )
+$orderData = $this->getOrderData();
+
 ?>
 <script>
     $$(".sub-title").first().insert({after: '<div id="esat-checkout-questionnaire-container"></div>'});
@@ -39,4 +38,3 @@ if($status){
                 }
         };
 </script>
-<?php } ?>

@@ -1,7 +1,8 @@
 <?php
+
 /**
  * Class Esat_Esatisfaction_Helper_Data
- * A Helper Data file is mandatory in order to create a module.
+ * A Helper Data file is mandatory in order to create a module
  */
 class Esat_Esatisfaction_Helper_Data extends Mage_Core_Helper_Abstract
 {
@@ -19,14 +20,6 @@ class Esat_Esatisfaction_Helper_Data extends Mage_Core_Helper_Abstract
     public function getAuto()
     {
         return Mage::getStoreConfig('esatisfaction/application/auto');
-    }
-
-    /**
-     * @return string
-     */
-    public function getStatus()
-    {
-        return Mage::getStoreConfig('esatisfaction/application/status');
     }
 
     /**
