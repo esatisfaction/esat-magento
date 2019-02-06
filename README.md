@@ -6,6 +6,13 @@
 
 This branch is targeting Magento v1.9
 
+### Compatibility
+
+This branch is compatible with the following magento versions:
+* `Magento v1.7.*`
+* `Magento v1.8.*`
+* `Magento v1.9.*`
+
 ### Installation
 
 1. Download release zip
@@ -16,3 +23,15 @@ This branch is targeting Magento v1.9
 6. You are good to go
 
 You should be able to find the module in your menu.
+
+### Releases
+
+#### Magento 1.9
+
+* [e-satisfaction Magento v2.0.0](https://github.com/esatisfaction/esat-magento/releases/tag/v2.0.0-magento-1.9)
+* [e-satisfaction Magento v2.0.1](https://github.com/esatisfaction/esat-magento/releases/tag/v2.0.1-magento-1.9)
+* [e-satisfaction Magento v2.0.2](https://github.com/esatisfaction/esat-magento/releases/tag/v2.0.2-magento-1.9)
+
+### Changelog
+
+For changelog details, see [CHANGELOG-1.9.md](CHANGELOG-1.9.md).
