@@ -20,32 +20,20 @@ if ($status) {
         });
     </script>
     <script>
-        window.esat_config =
-            {
-                application_id: '<?php echo $application_id; ?>',
-                collection:
+        // Metadata update script
+        Esat.updateMetadata("<?php echo $questionnaire_id; ?>", {
+                responder:
                     {
-                        '<?php echo $questionnaire_id; ?>':
-                            {
-                                'questionnaire_id': '<?php echo $questionnaire_id; ?>',
-                                'metadata':
-                                    {
-                                        'responder':
-                                            {
-                                                'email': '<?php echo $_order_data['email']; ?>',
-                                                'phone_number': '<?php echo $_order_data['telephone']; ?>'
-                                            },
-                                        'questionnaire':
-                                            {
-                                                'transaction_id': '<?php echo $_order_data['increment_id']; ?>',
-                                                'transaction_date': '<?php echo $_order_data['created_at']; ?>',
-                                                'store_pickup': <?php echo $_order_data['store_pickup']; ?>
-                                            }
-                                    }
-                            }
+                        "email": "<?php echo $_order_data['email']; ?>",
+                        "phone_number": "<?php echo $_order_data['telephone']; ?>"
+                    },
+                questionnaire:
+                    {
+                        "transaction_id": "<?php echo $_order_data['increment_id']; ?>",
+                        "transaction_date": "<?php echo $_order_data['created_at']; ?>",
+                        "store_pickup": <?php echo $_order_data['store_pickup']; ?>
                     }
-            };
+            }
+        );
     </script>
-    <?php
-}
-?>
+<?php } ?>
