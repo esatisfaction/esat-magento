@@ -23,6 +23,6 @@ if ($status) {
                 script.src = 'https://collection.e-satisfaction.com/dist/js/integration' + (!!jq ? '' : '.jq') + '.min.js';
                 body.appendChild(script);
             });
-        })(window, document, "<?php echo $applicationId; ?>", false, {});
+        })(window, document, "<?php echo $applicationId; ?>", "<?php echo $helperData->getIsJQueryEnabled() ? true : false ?>", {});
     </script>
 <?php } ?>
