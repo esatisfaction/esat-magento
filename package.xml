@@ -79,7 +79,6 @@
                         </dir>
                         <dir name="template">
                             <dir name="esatisfaction">
-                                <file name="before_body_end.phtml" hash="8f898e6dc3dbb5953d5473fbdf593768"/>
                                 <file name="checkout_success.phtml" hash="54a4d68f12c8c4e481b5f6f9ea9d792d"/>
                                 <file name="header.phtml" hash="4b046c7796a4cf8726ee4508fdeb91af"/>
                             </dir>

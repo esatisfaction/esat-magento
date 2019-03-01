@@ -9,15 +9,6 @@
                     template="esatisfaction/header.phtml"
             />
         </reference>
-        <!-- Footer Script -->
-        <!-- Add before_body_end in case jquery is loaded -->
-        <reference name="before_body_end">
-            <block
-                    type="core/template"
-                    name="esatisfaction.before_body_end"
-                    template="esatisfaction/before_body_end.phtml"
-            />
-        </reference>
     </default>
     <!-- Success Page Scripts-->
     <checkout_onepage_success>
