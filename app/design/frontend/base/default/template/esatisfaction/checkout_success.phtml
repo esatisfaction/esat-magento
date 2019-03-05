@@ -3,7 +3,6 @@
 $esatisfaction = Mage::helper('esatisfaction/data');
 $status = $esatisfaction->getStatus();
 if ($status) {
-    $applicationId = $esatisfaction->getApplicationId();
     $questionnaireId = $esatisfaction->getCheckoutQuestionnaireId();
 
     // Get Order Data from esatisfaction block ( Block/Checkout/Success )
@@ -13,30 +12,16 @@ if ($status) {
         $$(".sub-title").first().insert({after: '<div id="esat-checkout-questionnaire-container"></div>'});
     </script>
     <script>
-        window.esat_config =
-            {
-                application_id: '<?php echo $applicationId; ?>',
-                collection:
-                    {
-                        '<?php echo $questionnaireId; ?>':
-                            {
-                                'questionnaire_id': '<?php echo $questionnaireId; ?>',
-                                'metadata':
-                                    {
-                                        'responder':
-                                            {
-                                                'email': '<?php echo $orderData['email']; ?>',
-                                                'phone_number': '<?php echo $orderData['telephone']; ?>'
-                                            },
-                                        'questionnaire':
-                                            {
-                                                'transaction_id': '<?php echo $orderData['increment_id']; ?>',
-                                                'transaction_date': '<?php echo $orderData['created_at']; ?>',
-                                                'store_pickup': <?php echo $orderData['store_pickup']; ?>
-                                            }
-                                    }
-                            }
-                    }
-            };
+        Esat.updateMetadata("<?php echo $questionnaireId; ?>", {
+            responder: {
+                "email": "<?php echo $orderData['email']; ?>",
+                "phone_number": "<?php echo $orderData['telephone']; ?>"
+            },
+            questionnaire: {
+                "transaction_id": "<?php echo $orderData['increment_id']; ?>",
+                "transaction_date": "<?php echo $orderData['created_at']; ?>",
+                "store_pickup": <?php echo $orderData['store_pickup']; ?>
+            }
+        });
     </script>
 <?php } ?>
