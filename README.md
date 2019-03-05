@@ -13,6 +13,8 @@ This branch is compatible with the following magento versions:
 * `Magento v1.8.*`
 * `Magento v1.9.*`
 
+If you are working on the e-satisfaction v1.0, you should check [legacy-1.9](https://github.com/esatisfaction/esat-magento/tree/legacy-1.9).
+
 ### Installation
 
 1. Download release zip
