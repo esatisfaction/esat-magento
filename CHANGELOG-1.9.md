@@ -6,6 +6,7 @@ This changelog references the relevant changes (bug and security fixes) done in 
 To get the diff for a specific change, go to https://github.com/esatisfaction/esat-magento/commit/XXX where XXX is the change hash
 
 * 2.0.3 (future-release)
+  * Fix integration logic to get jQuery version properly
   
 * 2.0.2 (2019-02-06)
   * Add status option to configuration
