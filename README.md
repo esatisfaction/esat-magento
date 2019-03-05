@@ -28,9 +28,10 @@ You should be able to find the module in your menu.
 
 #### Magento 1.9
 
-* [e-satisfaction Magento v2.0.0](https://github.com/esatisfaction/esat-magento/releases/tag/v2.0.0-magento-1.9)
-* [e-satisfaction Magento v2.0.1](https://github.com/esatisfaction/esat-magento/releases/tag/v2.0.1-magento-1.9)
+* [e-satisfaction Magento v2.0.3](https://github.com/esatisfaction/esat-magento/releases/tag/v2.0.3-magento-1.9)
 * [e-satisfaction Magento v2.0.2](https://github.com/esatisfaction/esat-magento/releases/tag/v2.0.2-magento-1.9)
+* [e-satisfaction Magento v2.0.1](https://github.com/esatisfaction/esat-magento/releases/tag/v2.0.1-magento-1.9)
+* [e-satisfaction Magento v2.0.0](https://github.com/esatisfaction/esat-magento/releases/tag/v2.0.0-magento-1.9)
 
 ### Changelog
 
