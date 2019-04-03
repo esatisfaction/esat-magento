@@ -12,14 +12,12 @@
     </default>
     <!-- Success Page Scripts-->
     <checkout_onepage_success>
-        <reference name="content">
-            <reference name="checkout.success">
-                <block
-                        type="esatisfaction/checkout_success"
-                        name="esatisfaction.checkout.success"
-                        template="esatisfaction/checkout_success.phtml"
-                />
-            </reference>
+        <reference name="checkout.success">
+            <block
+                    type="esatisfaction/checkout_success"
+                    name="esatisfaction.checkout.success"
+                    template="esatisfaction/checkout_success.phtml"
+            />
         </reference>
     </checkout_onepage_success>
 </layout>
