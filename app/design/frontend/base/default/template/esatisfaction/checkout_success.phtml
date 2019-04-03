@@ -9,9 +9,7 @@ if ($status) {
     $orderData = $this->getOrderData();
     ?>
     <script>
-        $$(".sub-title").first().insert({after: '<div id="esat-checkout-questionnaire-container"></div>'});
-    </script>
-    <script>
+        // Update metadata
         Esat.updateMetadata("<?php echo $questionnaireId; ?>", {
             responder: {
                 "email": "<?php echo $orderData['email']; ?>",
@@ -23,5 +21,8 @@ if ($status) {
                 "store_pickup": <?php echo $orderData['store_pickup']; ?>
             }
         });
+
+        // Insert checkout container
+        $$(".sub-title").first().insert({after: '<div id="esat-checkout-questionnaire-container"></div>'});
     </script>
 <?php } ?>
