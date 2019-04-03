@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
     <name>Esat_Esatisfaction</name>
-    <version>2.0.3</version>
+    <version>2.0.4</version>
     <stability>stable</stability>
     <license uri="http://www.gnu.org/licenses/gpl-3.0.en.html">GNU General Public License (GPL)</license>
     <channel>community</channel>
