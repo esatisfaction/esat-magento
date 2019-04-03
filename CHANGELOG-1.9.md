@@ -8,6 +8,7 @@ To get the diff for a specific change, go to https://github.com/esatisfaction/es
 * 2.0.4
   * Update integration script to the latest version
   * [Fix] Fix layout reference for checkout integration
+  * [Fix] Fix passing metadata on the checkout stage
 * 2.0.3
   *  Update the integration script to match the latest (25th February, 2019) e-satisfaction integration guidelines.
 * 2.0.2
