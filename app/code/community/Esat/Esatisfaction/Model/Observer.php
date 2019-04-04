@@ -31,13 +31,14 @@ class Esat_Esatisfaction_Model_Observer
         $status = $order->getStatus();
         $shipping_method = explode('_', $order->getShippingMethod());
 
-        if ($order->getCustomerIsGuest()) {
-            $email = $order->getCustomerEmail();
-            $telephone = $order->getBillingAddress()->getTelephone();
-        } else {
-            $email = $order->getEmail();
-            $telephone = $order->getTelephone();
-        }
+        /**
+         * Get data from user.
+         *
+         * Based on testing, we receive user email and telephone
+         * using the following functions:
+         */
+        $email = $order->getCustomerEmail();
+        $telephone = $order->getBillingAddress()->getTelephone();
 
         // Check if shipping_method is for pickup or delivery
         $pickupMethods = $helperData->getPickUpShippingMethods();
