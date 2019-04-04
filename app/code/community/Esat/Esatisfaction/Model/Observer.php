@@ -20,8 +20,8 @@ class Esat_Esatisfaction_Model_Observer
 
         // Get token
         $token = $helperData->getToken();
-        $auto = $helperData->getAuto();
-        if ($auto || empty($token)) {
+        $customFlows = $helperData->getCustomFlows();
+        if (!$customFlows || empty($token)) {
             // Module is marked for auto-flow from dashboard
             return;
         }
@@ -40,7 +40,7 @@ class Esat_Esatisfaction_Model_Observer
         }
 
         // Check if shipping_method is for pickup or delivery
-        $pickupMethods = $helperData->getPickUpShippings();
+        $pickupMethods = $helperData->getPickUpShippingMethods();
         if (in_array($shipping_method[0], $pickupMethods)) {
             $isPickup = true;
             $sendQuestionnaireStatus = explode(',', $helperData->getPickupSendQuestionnaire());

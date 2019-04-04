@@ -28,6 +28,6 @@ if ($status) {
             } else {
                 w.addEventListener('load', l, false);
             }
-        })(window, document, "<?php echo $applicationId; ?>", "<?php echo $helperData->getIsJQueryEnabled() ? false : true ?>", {});
+        })(window, document, "<?php echo $applicationId; ?>", "<?php echo $helperData->isJQueryEnabled() ? false : true ?>", {});
     </script>
 <?php } ?>

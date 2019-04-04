@@ -27,7 +27,7 @@ class Esat_Esatisfaction_Block_Checkout_Success extends Mage_Core_Block_Template
 
         // Define whether it is store pickup or not
         $shippingMethod = explode('_', $orderData->getShippingMethod());
-        $pickUpMethods = Mage::helper('esatisfaction/data')->getPickUpShippings();
+        $pickUpMethods = Mage::helper('esatisfaction/data')->getPickUpShippingMethods();
         if (in_array($shippingMethod[0], $pickUpMethods)) {
             $storePickup = 'true';
         } else {
