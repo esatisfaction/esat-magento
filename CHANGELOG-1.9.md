@@ -5,10 +5,13 @@ This changelog references the relevant changes (bug and security fixes) done in 
 
 To get the diff for a specific change, go to https://github.com/esatisfaction/esat-magento/commit/XXX where XXX is the change hash
 
-* 2.0.4
+* 2.1.0
+  * Update configuration layout
   * Update integration script to the latest version
   * [Fix] Fix layout reference for checkout integration
   * [Fix] Fix passing metadata on the checkout stage
+  * [Fix] Fix getting only the questionnaires that belong to the selected application
+
 * 2.0.3
   *  Update the integration script to match the latest (25th February, 2019) e-satisfaction integration guidelines.
 * 2.0.2
