@@ -17,20 +17,17 @@ class Esat_Esatisfaction_Block_Checkout_Success extends Mage_Core_Block_Template
         $orderData = Mage::getModel('sales/order')->load($orderId);
 
         /**
-         * If the customer checked out as a guest use billing address telephone
-         * else use the saved telephone
+         * Get data from user.
+         *
+         * Based on testing, we receive user email and telephone
+         * using the following functions:
          */
-        if ($orderData->getCustomerIsGuest()) {
-            $email = $orderData->getCustomerEmail();
-            $telephone = $orderData->getBillingAddress()->getTelephone();
-        } else {
-            $email = $orderData->getEmail();
-            $telephone = $orderData->getTelephone();
-        }
+        $email = $orderData->getCustomerEmail();
+        $telephone = $orderData->getBillingAddress()->getTelephone();
 
         // Define whether it is store pickup or not
         $shippingMethod = explode('_', $orderData->getShippingMethod());
-        $pickUpMethods = Mage::helper('esatisfaction/data')->getPickUpShippings();
+        $pickUpMethods = Mage::helper('esatisfaction/data')->getPickUpShippingMethods();
         if (in_array($shippingMethod[0], $pickUpMethods)) {
             $storePickup = 'true';
         } else {

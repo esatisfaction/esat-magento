@@ -20,8 +20,8 @@ class Esat_Esatisfaction_Model_Observer
 
         // Get token
         $token = $helperData->getToken();
-        $auto = $helperData->getAuto();
-        if ($auto || empty($token)) {
+        $customFlows = $helperData->getCustomFlows();
+        if (!$customFlows || empty($token)) {
             // Module is marked for auto-flow from dashboard
             return;
         }
@@ -31,16 +31,17 @@ class Esat_Esatisfaction_Model_Observer
         $status = $order->getStatus();
         $shipping_method = explode('_', $order->getShippingMethod());
 
-        if ($order->getCustomerIsGuest()) {
-            $email = $order->getCustomerEmail();
-            $telephone = $order->getBillingAddress()->getTelephone();
-        } else {
-            $email = $order->getEmail();
-            $telephone = $order->getTelephone();
-        }
+        /**
+         * Get data from user.
+         *
+         * Based on testing, we receive user email and telephone
+         * using the following functions:
+         */
+        $email = $order->getCustomerEmail();
+        $telephone = $order->getBillingAddress()->getTelephone();
 
         // Check if shipping_method is for pickup or delivery
-        $pickupMethods = $helperData->getPickUpShippings();
+        $pickupMethods = $helperData->getPickUpShippingMethods();
         if (in_array($shipping_method[0], $pickupMethods)) {
             $isPickup = true;
             $sendQuestionnaireStatus = explode(',', $helperData->getPickupSendQuestionnaire());
@@ -57,7 +58,7 @@ class Esat_Esatisfaction_Model_Observer
 
         // Status for sending questionnaire
         if (in_array($status, $sendQuestionnaireStatus)) {
-            $url = sprintf('https://api.e-satisfaction.com/v3.0/q/questionnaire/%s/pipeline/%s/queue/item', $questionnaireId, $pipelineId);
+            $url = sprintf('https://api.e-satisfaction.com/v3.1/q/questionnaire/%s/pipeline/%s/queue/item', $questionnaireId, $pipelineId);
             $postFields = [
                 'responder_channel_identifier' => $email,
                 'locale' => 'el',
@@ -93,10 +94,10 @@ class Esat_Esatisfaction_Model_Observer
             ]);
 
             $response = curl_exec($ch);
-            $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             curl_close($ch);
             $response = json_decode($response, true);
-            if ($httpcode == 201) {
+            if ($httpCode == 201) {
                 $item = Mage::getModel('esatisfaction/item');
                 $item->setOrderId($order->getIncrementId());
                 $item->setItemId($response['item_id']);
@@ -109,13 +110,19 @@ class Esat_Esatisfaction_Model_Observer
             $collection = Mage::getModel('esatisfaction/item')->getCollection()->addFieldToFilter('order_id', $order->getIncrementId());
             $item = $collection->getFirstItem();
 
-            $url = 'https://api.e-satisfaction.com/v3.0/q/queue/item/' . $item->getItemId();
+            $url = 'https://api.e-satisfaction.com/v3.1/q/queue/item/' . $item->getItemId();
+            // Set queue item as CANCELLED/ABORTED
+            $postFields = [
+                'status_id' => 5,
+                'result' => 'Order cancelled from Magento Admin',
+            ];
 
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_HEADER, false);
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PATCH');
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postFields));
             curl_setopt($ch, CURLOPT_HTTPHEADER, [
                 'Content-Type: application/json',
                 'Accept: application/json',
@@ -123,10 +130,11 @@ class Esat_Esatisfaction_Model_Observer
             ]);
 
             curl_exec($ch);
-            $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             curl_close($ch);
 
-            if ($httpcode == 204) {
+            // Delete local item on success
+            if ($httpCode == 200) {
                 $item->delete();
             }
         }
