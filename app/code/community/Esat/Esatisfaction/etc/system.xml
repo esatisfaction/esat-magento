@@ -34,6 +34,13 @@
                             <show_in_default>1</show_in_default>
                             <comment>You must set an Application Id before you can use this extension.</comment>
                         </application_id>
+                        <working_domain>
+                            <label>Working Domain</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <comment>Set your e-satisfaction working domain.</comment>
+                        </working_domain>
                         <jquery_installed>
                             <label>jQuery Installed?</label>
                             <comment>Select yes if your magento theme installation uses jQuery.</comment>

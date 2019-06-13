@@ -13,6 +13,7 @@ class Esat_Esatisfaction_Model_System_Config_Source_Pickup_Pipeline
         $helperData = Mage::helper('esatisfaction/data');
         $token = $helperData->getToken();
         $applicationId = $helperData->getApplicationId();
+        $domain = $helperData->getWorkingDomain();
 
         // Validate token and application id
         if (empty($token) || empty($applicationId)) {
@@ -36,13 +37,14 @@ class Esat_Esatisfaction_Model_System_Config_Source_Pickup_Pipeline
         }
 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, sprintf('https://api.e-satisfaction.com/v3.1/q/questionnaire/%s/pipeline', $questionnaireId));
+        curl_setopt($ch, CURLOPT_URL, sprintf('https://api.e-satisfaction.com/v3.2/q/questionnaire/%s/pipeline', $questionnaireId));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HEADER, false);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             'Content-Type: application/json',
             'Accept: application/json',
             'esat-auth: ' . $token,
+            'esat-domain:' . $domain,
         ]);
 
         $response = curl_exec($ch);
