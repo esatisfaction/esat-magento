@@ -23,11 +23,9 @@ if ($status) {
                 s.src = 'https://collection.e-satisfaction.com/dist/js/integration' + (!!jq ? '.jq' : '') + '.min.js';
                 r.parentNode.insertBefore(s, r);
             };
-            if (w.attachEvent) {
-                w.attachEvent('onload', l);
-            } else {
-                w.addEventListener('load', l, false);
-            }
+
+            // Attach script or run script if document is loaded
+            "complete" === d.readyState ? l() : (w.attachEvent ? w.attachEvent("onload", l) : w.addEventListener("load", l, false));
         })(window, document, "<?php echo $applicationId; ?>", "<?php echo $helperData->isJQueryEnabled() ? false : true ?>", {});
     </script>
 <?php } ?>

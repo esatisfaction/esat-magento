@@ -20,6 +20,7 @@ class Esat_Esatisfaction_Model_Observer
 
         // Get token
         $token = $helperData->getToken();
+        $domain = $helperData->getWorkingDomain();
         $customFlows = $helperData->getCustomFlows();
         if (!$customFlows || empty($token)) {
             // Module is marked for auto-flow from dashboard
@@ -58,7 +59,7 @@ class Esat_Esatisfaction_Model_Observer
 
         // Status for sending questionnaire
         if (in_array($status, $sendQuestionnaireStatus)) {
-            $url = sprintf('https://api.e-satisfaction.com/v3.1/q/questionnaire/%s/pipeline/%s/queue/item', $questionnaireId, $pipelineId);
+            $url = sprintf('https://api.e-satisfaction.com/v3.2/q/questionnaire/%s/pipeline/%s/queue/item', $questionnaireId, $pipelineId);
             $postFields = [
                 'responder_channel_identifier' => $email,
                 'locale' => 'el',
@@ -91,6 +92,7 @@ class Esat_Esatisfaction_Model_Observer
                 'Content-Type: application/json',
                 'Accept: application/json',
                 'esat-auth:' . $token,
+                'esat-domain:' . $domain,
             ]);
 
             $response = curl_exec($ch);
@@ -110,7 +112,7 @@ class Esat_Esatisfaction_Model_Observer
             $collection = Mage::getModel('esatisfaction/item')->getCollection()->addFieldToFilter('order_id', $order->getIncrementId());
             $item = $collection->getFirstItem();
 
-            $url = 'https://api.e-satisfaction.com/v3.1/q/queue/item/' . $item->getItemId();
+            $url = 'https://api.e-satisfaction.com/v3.2/q/queue/item/' . $item->getItemId();
             // Set queue item as CANCELLED/ABORTED
             $postFields = [
                 'status_id' => 5,
@@ -127,6 +129,7 @@ class Esat_Esatisfaction_Model_Observer
                 'Content-Type: application/json',
                 'Accept: application/json',
                 'esat-auth:' . $token,
+                'esat-domain:' . $domain,
             ]);
 
             curl_exec($ch);

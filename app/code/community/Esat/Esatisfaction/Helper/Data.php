@@ -25,6 +25,14 @@ class Esat_Esatisfaction_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * @return string
      */
+    public function getWorkingDomain()
+    {
+        return Mage::getStoreConfig('esatisfaction/application/working_domain') ?: '';
+    }
+
+    /**
+     * @return string
+     */
     public function isJQueryEnabled()
     {
         return Mage::getStoreConfig('esatisfaction/application/jquery_installed') ?: false;
