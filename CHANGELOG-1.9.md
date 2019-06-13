@@ -5,6 +5,11 @@ This changelog references the relevant changes (bug and security fixes) done in 
 
 To get the diff for a specific change, go to https://github.com/esatisfaction/esat-magento/commit/XXX where XXX is the change hash
 
+* 2.2.0
+  * Use e-satisfaction working domain
+  * Work with api v3.2
+  * Update integration code
+
 * 2.1.0
   * Update configuration layout
   * Update integration script to the latest version
