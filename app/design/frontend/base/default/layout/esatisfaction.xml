@@ -12,7 +12,7 @@
     </default>
     <!-- Success Page Scripts-->
     <checkout_onepage_success>
-        <reference name="checkout.success">
+        <reference name="content">
             <block
                     type="esatisfaction/checkout_success"
                     name="esatisfaction.checkout.success"
