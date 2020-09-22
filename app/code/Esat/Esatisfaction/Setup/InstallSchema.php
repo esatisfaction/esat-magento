@@ -18,6 +18,7 @@ class InstallSchema implements \Magento\Framework\Setup\InstallSchemaInterface
                 ], 'OrderItemId')
                 ->addColumn('order_id', \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER, null, [
                     'primary' => true,
+                    'nullable' => false,
                 ], 'OrderId')
                 ->addColumn('item_id', \Magento\Framework\DB\Ddl\Table::TYPE_TEXT, 255, [
                     'nullable' => false,
