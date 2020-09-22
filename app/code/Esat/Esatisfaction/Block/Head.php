@@ -42,4 +42,13 @@ class Head extends Template
     {
         return $this->_helper->getStatus();
     }
+
+    /**
+     * @return bool
+     */
+    public function _getIsJQueryEnabled()
+    {
+        return $this->_helper->getIsJQueryEnabled();
+    }
+
 }
